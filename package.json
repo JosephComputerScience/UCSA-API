@@ -6,6 +6,7 @@
   "author": "Joseph <jonguyen741@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "build": "tsc",
     "clean": "rm -r dist/",
     "start": "ts-node ./src/index.ts"
   },
