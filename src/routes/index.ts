@@ -2,10 +2,9 @@
 import { Request, Response } from 'express';
 import Router from 'express-promise-router';
 
-const router = Router();
+export const v1Router = Router();
 
 // TODO: delete me
-router.get('/', (req: Request, res: Response) => {
-  return res.status(200).json({ message: 'Running' });
+v1Router.get('/', (req: Request, res: Response) => {
+  return res.status(200).json({ hi: 'hi' });
 });
-export default router;

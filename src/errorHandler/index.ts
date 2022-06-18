@@ -1,11 +1,14 @@
 // external imports
-import { json } from 'body-parser';
 import { Request, Response, NextFunction } from 'express';
 // local imports
 import { BadRequestError } from './BadRequestError';
 import { NotFoundError } from './NotFoundError';
 import { UnauthorizedError } from './UnauthorizedError';
 
+/**
+ * Error handler uses a switch case to throw errors.
+ * Defaults to 500 status code.
+ */
 export const errorHandler = (
   err: Error,
   req: Request,
