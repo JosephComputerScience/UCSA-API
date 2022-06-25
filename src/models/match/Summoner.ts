@@ -1,4 +1,4 @@
-export interface MatchDTO {
+export interface SummonerDTO {
   accoutnId: string;
   id: string;
   name: string;
