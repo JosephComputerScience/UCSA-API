@@ -1,5 +1,6 @@
 // external packages
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { BadRequestError } from '../../errorHandler/BadRequestError';
 // local packages
 import { addRiotApiKeyToConfig, HasAPIKey } from '../shared';
 
