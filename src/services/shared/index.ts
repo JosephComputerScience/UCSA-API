@@ -12,7 +12,7 @@ export const addRiotApiKeyToConfig = <T extends HasAPIKey>(
 ): T => {
   const newConfig = {
     ...(config && config),
-    api_key: process.env[MANDATORY_ENV_KEYS.API_KEY] as string,
+    params: { api_key: process.env[MANDATORY_ENV_KEYS.API_KEY] as string },
   };
   return newConfig as T;
 };
