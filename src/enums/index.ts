@@ -4,4 +4,5 @@
  */
 export enum MANDATORY_ENV_KEYS {
   API_KEY = 'API_KEY',
+  NA_API_URL = 'NA_API_URL',
 }
