@@ -1,5 +1,6 @@
 // local imports
 import app from './src/index';
+import 'dotenv/config';
 // enums
 import { MANDATORY_ENV_KEYS } from './src/enums';
 
