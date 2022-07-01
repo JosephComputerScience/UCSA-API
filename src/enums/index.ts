@@ -46,3 +46,13 @@ export const SUMMONER_VERSION_4 = 'v4';
  * Root summoner api endpoint
  */
 export const SUMMONER_ENDPOINT = 'lol/summoner';
+
+/**
+ * Summoner v5 api tag
+ */
+ export const MATCH_VERSION_5 = 'v5';
+
+/**
+ * Root match api endpoint
+ */
+export const MATCH_ENDPOINT = 'lol/match';
