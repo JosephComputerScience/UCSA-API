@@ -1,7 +1,10 @@
 // external imports
 import Router from 'express-promise-router';
-import { get } from '../services/lol'
+// routes
+import { summonerRouter } from './summoner';
+import { matchRouter } from './match';
+
 export const v1Router = Router();
 
-
-v1Router.route("/").get((req, res) => { return res.status(200).json({hi: "hello"})})
+v1Router.use(summonerRouter);
+v1Router.use(matchRouter);
