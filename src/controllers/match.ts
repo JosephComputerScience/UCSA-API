@@ -37,7 +37,7 @@ export const getMatchesByPuidAndRegion = async (
  * @param region Name of the region, for example americas
  * @returns MatchDTO
  */
- export const getMatchesByMatchIdAndRegion = async (
+ export const getMatchByMatchIdAndRegion = async (
   matchId: string,
   region: string
 ) => {
