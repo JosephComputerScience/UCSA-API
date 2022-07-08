@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import Router from 'express-promise-router';
 // local imports
-import { getMatchesByPuuidAndRegion, getMatchesByMatchIdAndRegion } from '../controllers/match';
+import { getMatchesByPuuidAndRegion, getMatchByMatchIdAndRegion } from '../controllers/match';
 import { checkForCountQuery } from '../middleware/match/match';
 
 // match router
@@ -23,7 +23,7 @@ matchRouter
 matchRouter
   .route('/match/:region/:matchId')
   .get(async (req: Request, res: Response) => {
-    const match = await getMatchesByMatchIdAndRegion(
+    const match = await getMatchByMatchIdAndRegion(
       req.params.matchId as string,
       req.params.region as string,
     );

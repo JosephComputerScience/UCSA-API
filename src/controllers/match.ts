@@ -20,11 +20,8 @@ export const getMatchesByPuuidAndRegion = async (
   region: string,
   count: number,
 ) => {
-  console.log("my newnew log", count)
-  //if count == NaN change to 20 (default)
   // Handling default if there is no set count, count > 100, or count < 0
-  // do we need to handle if count is not a whole num?
-  
+
   if (Number.isNaN(count) || count > 100 || count < 0) {
     count = 20
   }
@@ -50,7 +47,7 @@ export const getMatchesByPuuidAndRegion = async (
  * @param region Name of the region, for example americas
  * @returns MatchDTO
  */
- export const getMatchesByMatchIdAndRegion = async (
+ export const getMatchByMatchIdAndRegion = async (
   matchId: string,
   region: string
 ) => {
