@@ -18,10 +18,11 @@ import { MatchDTO } from '../../models/match';
  */
 export const getMatchesByPuid = async (
   puuid: string,
-  region: string
+  region: string,
+  count: number,
 ) => {
   try {
-    const url = `https://${region}.${RIOT_ROOT_URL}/${MATCH_ENDPOINT}/${MATCH_VERSION_5}/matches/by-puuid/${puuid}/ids`;
+    const url = `https://${region}.${RIOT_ROOT_URL}/${MATCH_ENDPOINT}/${MATCH_VERSION_5}/matches/by-puuid/${puuid}/ids?count=${count}`;
     const resp = await get<string[]>(url);
     return resp.data;
   } catch (e) {

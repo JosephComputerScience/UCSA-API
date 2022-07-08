@@ -10,9 +10,11 @@ export const matchRouter = Router();
 matchRouter
   .route('/match/ids/:region/:puuid')
   .get(async (req: Request, res: Response) => {
+  const count = req.query.count as string
   const match = await getMatchesByPuidAndRegion(
     req.params.puuid as string,
     req.params.region as string,
+    +count,
   );
   res.status(200).json({ ...match });
 });

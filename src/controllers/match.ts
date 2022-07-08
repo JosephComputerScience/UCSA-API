@@ -16,11 +16,18 @@ import { SummonerDTO } from '../models/summoner';
  */
 export const getMatchesByPuidAndRegion = async (
   puuid: string,
-  region: string
+  region: string,
+  count: number,
 ) => {
+
+  // Handling default if there is no set count, count > 100, or count < 0
+  if (Number.isNaN(count) || count > 100 || count < 0) {
+    count = 20
+  }
+  
   for (const value of Object.values(REGIONS)) {
     if (region === value) {
-      return (await getMatchesByPuid(puuid, region));
+      return (await getMatchesByPuid(puuid, region, count));
     }
   }
   throw new BadRequestError(
