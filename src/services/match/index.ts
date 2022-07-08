@@ -16,12 +16,13 @@ import { MatchDTO } from '../../models/match';
  * @param region Name of the region, for example americas
  * @returns List[string] of match ids
  */
-export const getMatchesByPuid = async (
+export const getMatchesByPuuid = async (
   puuid: string,
-  region: string
+  region: string,
+  count: number,
 ) => {
   try {
-    const url = `https://${region}.${RIOT_ROOT_URL}/${MATCH_ENDPOINT}/${MATCH_VERSION_5}/matches/by-puuid/${puuid}/ids`;
+    const url = `https://${region}.${RIOT_ROOT_URL}/${MATCH_ENDPOINT}/${MATCH_VERSION_5}/matches/by-puuid/${puuid}/ids?count=${count}`;
     const resp = await get<string[]>(url);
     return resp.data;
   } catch (e) {

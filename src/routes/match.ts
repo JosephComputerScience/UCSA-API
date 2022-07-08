@@ -2,25 +2,20 @@
 import { Request, Response } from 'express';
 import Router from 'express-promise-router';
 // local imports
-import { getMatchesByPuidAndRegion, getMatchesByMatchIdAndRegion } from '../controllers/match';
+import { getMatchesByPuuidAndRegion, getMatchesByMatchIdAndRegion } from '../controllers/match';
+import { checkForCountQuery } from '../middleware/match/match';
 
 // match router
 export const matchRouter = Router();
 
 matchRouter
   .route('/match/ids/:region/:puuid')
-  .get(async (req: Request, res: Response) => {
-  const match = await getMatchesByPuidAndRegion(
+  .get(checkForCountQuery, async (req: Request, res: Response) => {
+  const count = req.query.count as string
+  const match = await getMatchesByPuuidAndRegion(
     req.params.puuid as string,
     req.params.region as string,
-    //req.query.startTime as number,
-    //Add optional query params?
-//   req.params.startTime as long,
-//   req.params.endTime as long,
-//   req.params.queue as int,
-//   req.params.type as string,
-//   req.params.start as int,
-//   req.params.count as int,
+    +count,
   );
   res.status(200).json({ ...match });
 });
