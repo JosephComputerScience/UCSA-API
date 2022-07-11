@@ -14,6 +14,7 @@ import { MatchDTO } from '../../models/match';
  * Gets the list of match ids based on the puuid and the region which that summonerName exist.
  * @param puuid Encrypted PUUID
  * @param region Name of the region, for example americas
+ * @param count Number of matches to retrieve
  * @returns List[string] of match ids
  */
 export const getMatchesByPuid = async (

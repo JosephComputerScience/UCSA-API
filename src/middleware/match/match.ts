@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 
+/**
+ * Controller checks to see if count is of type Number
+ * If not a bad request error is thrown.
+ */
 export const checkForCountQuery = (
   req: Request,
   res: Response,
@@ -15,7 +19,7 @@ export const checkForCountQuery = (
     }
 
  } catch (e) {
-  throw new Error('my error')
+  throw new Error('Count is not of type Number')
  }
   next();
 };
