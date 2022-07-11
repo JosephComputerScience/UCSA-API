@@ -6,6 +6,7 @@ import { getMatchesByPuid, getMatchByMatchId } from '../services/match';
 import { REGIONS } from '../enums';
 import { BadRequestError } from '../errorHandler/BadRequestError';
 import { SummonerDTO } from '../models/summoner';
+import { matchDataByChamp } from '../services/match/matchDataByChamp';
 
 /**
  * Controller checks to see if region is of type enum REGIONS.
@@ -40,9 +41,9 @@ export const getMatchesByPuidAndRegion = async (
 /**
  * Controller checks to see if region is of type enum REGIONS.
  * If not a bad request error is thrown.
- * @param matchId Unique match ID, for example NA1_4356536467
+ * @param puuid Encrypted PUUID
  * @param region Name of the region, for example americas
- * @returns MatchDTO
+ * @returns Map<string, MatchDTO[]> 
  */
  export const getMatchByMatchIdAndRegion = async (
   matchId: string,
@@ -51,6 +52,30 @@ export const getMatchesByPuidAndRegion = async (
   for (const value of Object.values(REGIONS)) {
     if (region === value) {
       return (await getMatchByMatchId(matchId, region));
+    }
+  }
+  throw new BadRequestError(
+    `Proper region param was not passed. Region must be one of these value [${Object.values(
+      REGIONS
+    ).join(' | ')}]`
+  );
+};
+
+/**
+ * Controller checks to see if region is of type enum REGIONS.
+ * If not a bad request error is thrown.
+ * @param matchId Unique match ID, for example NA1_4356536467
+ * @param region Name of the region, for example americas
+ * @returns MatchDTO
+ */
+ export const groupDataByChamp = async (
+  puuid: string,
+  region: string,
+  count: number,
+) => {
+  for (const value of Object.values(REGIONS)) {
+    if (region === value) {
+      return (await matchDataByChamp(region,puuid,count));
     }
   }
   throw new BadRequestError(
