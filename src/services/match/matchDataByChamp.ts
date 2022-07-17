@@ -29,15 +29,14 @@ export const matchDataByChamp = async (
         let matches = await getMatchesByPuid(puuid, region, count);
 
         // Creating Map to insert matches into, key is string, value is MatchDTO
-        var champMatches = new Map<string, MatchDTO[]>();
+        let champObject: any = {};
 
         // Verifies that there are matches
         if(matches){
-
             // Iterating through every match
             for (let i = 0; i < matches.length; i++){
                 // Getting match information with matchID
-                let match = await getMatchByMatchId(matches[i][1], region);
+                let match = await getMatchByMatchId(matches[i], region);
                 if(match){
                     // Iterating through participants to find matching puuid participant
                     for(let i = 0; i < match.info.participants.length; i++){
@@ -45,10 +44,10 @@ export const matchDataByChamp = async (
                             // insert champion as key, and match as value into Map
                             let champion:string = match.info.participants[i].championName
                             // if key already exists (previously played same champ)
-                            if(champMatches.has(champion)){
-                                champMatches.get(champion)!.push(match);
+                            if(champObject.hasOwnProperty(champion)){
+                                champObject[champion]!.push(match);
                             } else {
-                                champMatches.set(champion, [match]);
+                                champObject[champion] = [match];
                             }
                             // Get out of participant loop (only one can match to puuid)
                             break;
@@ -57,7 +56,7 @@ export const matchDataByChamp = async (
                 }
             }
         }
-        return champMatches;
+        return champObject;
     } catch (e) {
         if (e instanceof Error) {
         console.log(e.message);
