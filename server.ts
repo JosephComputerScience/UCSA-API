@@ -4,7 +4,7 @@ import 'dotenv/config';
 // enums
 import { MANDATORY_ENV_KEYS } from './src/enums';
 
-const port = process.env.PORT || 3000; // 3000 is default port
+const port = process.env.PORT || 8080; // 8080 is default port
 
 // start server
 app.listen(port, () => {

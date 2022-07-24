@@ -8,7 +8,7 @@ Aggregates stats for champions by summoner name, and number of matches for Riot 
 
 run `yarn install`
 
-To start a dev environment on localhost:3000:
+To start a dev environment on localhost:8080:
 
 run `yarn start`
 
