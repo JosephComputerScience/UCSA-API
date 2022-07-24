@@ -2,17 +2,32 @@
 import { Request, Response } from 'express';
 import Router from 'express-promise-router';
 // local imports
-import { getMatchesByPuidAndRegion, getMatchByMatchIdAndRegion } from '../controllers/match';
+import { getMatchesByPuidAndRegion, getMatchByMatchIdAndRegion, groupDataByChamp} from '../controllers/match';
+import { matchDataByChamp } from '../services/match/matchDataByChamp';
 
 // match router
 export const matchRouter = Router();
 
 matchRouter
+  .route('/match/groupByChamp/:region/:puuid')
+  .get(async (req: Request, res: Response) => {
+    const count = req.query.count as string
+    const result = await groupDataByChamp(
+      req.params.puuid as string,
+      req.params.region as string,
+      +count,
+    );
+    res.status(200).json({ ...result });
+  });
+
+matchRouter
   .route('/match/ids/:region/:puuid')
   .get(async (req: Request, res: Response) => {
+  const count = req.query.count as string
   const match = await getMatchesByPuidAndRegion(
     req.params.puuid as string,
     req.params.region as string,
+    +count,
   );
   res.status(200).json({ ...match });
 });
@@ -28,3 +43,5 @@ matchRouter
   });
 
 
+
+  

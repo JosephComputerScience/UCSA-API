@@ -13,7 +13,7 @@ export interface InfoDTO {
   gameType: string;
   gameVersion: string;
   mapId: number;
-  partcipants: ParticipantDTO[];
+  participants: ParticipantDTO[];
   platformId: string;
   queueId: number;
   teams: TeamDTO[];
