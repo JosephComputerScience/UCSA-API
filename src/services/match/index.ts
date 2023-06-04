@@ -19,11 +19,7 @@ export const getMatchesByPuuid = async (
   try {
     const url = `https://${region}.${RIOT_ROOT_URL}/${MATCH_ENDPOINT}/${MATCH_VERSION_5}/matches/by-puuid/${puuid}/ids?count=${count}`;
     const resp = await get<string[]>(url);
-    if (resp.data) {
-      return resp.data;
-    }
-    return [] as string[];
-    // return resp.data as string[];
+    return resp.data;
   } catch (e) {
     if (e instanceof Error) {
       console.log(e.message);
