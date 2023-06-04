@@ -1,5 +1,3 @@
-// external imports
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 // local imports
 import { get } from '../lol';
 // enums & models
@@ -27,7 +25,9 @@ export const getSummonerByName = async (
   } catch (e) {
     if (e instanceof Error) {
       console.log(e.message);
-      throw e;
+    } else {
+      console.log(e);
     }
+    throw e;
   }
 };
