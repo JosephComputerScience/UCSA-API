@@ -1,12 +1,12 @@
-// external imports
-import { Request } from 'express';
 // local imports
-import { getMatchesByPuid, getMatchByMatchId } from '../services/match';
+import {
+  getMatchesByPuuid,
+  getMatchByMatchId,
+  matchDataByChamp,
+} from '../services/match';
 // enums
 import { REGIONS } from '../enums';
 import { BadRequestError } from '../errorHandler/BadRequestError';
-import { SummonerDTO } from '../models/summoner';
-import { matchDataByChamp } from '../services/match/matchDataByChamp';
 
 /**
  * Controller checks to see if region is of type enum REGIONS.
@@ -19,17 +19,16 @@ import { matchDataByChamp } from '../services/match/matchDataByChamp';
 export const getMatchesByPuidAndRegion = async (
   puuid: string,
   region: string,
-  count: number,
+  count: number
 ) => {
-
   // Handling default if there is no set count, count > 100, or count < 0
   if (Number.isNaN(count) || count > 100 || count < 0) {
-    count = 20
+    count = 20;
   }
-  
+
   for (const value of Object.values(REGIONS)) {
     if (region === value) {
-      return (await getMatchesByPuid(puuid, region, count));
+      return await getMatchesByPuuid(puuid, region, count);
     }
   }
   throw new BadRequestError(
@@ -47,13 +46,13 @@ export const getMatchesByPuidAndRegion = async (
  * @param count Number of matches to retrieve
  * @returns JS object, key is champion name, value is a list of Match DTOs
  */
- export const getMatchByMatchIdAndRegion = async (
+export const getMatchByMatchIdAndRegion = async (
   matchId: string,
   region: string
 ) => {
   for (const value of Object.values(REGIONS)) {
     if (region === value) {
-      return (await getMatchByMatchId(matchId, region));
+      return await getMatchByMatchId(matchId, region);
     }
   }
   throw new BadRequestError(
@@ -70,19 +69,18 @@ export const getMatchesByPuidAndRegion = async (
  * @param region Name of the region, for example americas
  * @returns MatchDTO
  */
- export const groupDataByChamp = async (
+export const groupDataByChamp = async (
   puuid: string,
   region: string,
-  count: number,
+  count: number
 ) => {
-  
-  // Handling default if there is no set count, count > 100, or count < 0
+  // Default case, sets count to 20 if count > 100 or negative
   if (Number.isNaN(count) || count > 100 || count < 0) {
-    count = 20
+    count = 20;
   }
   for (const value of Object.values(REGIONS)) {
     if (region === value) {
-      return (await matchDataByChamp(region,puuid,count));
+      return await matchDataByChamp(region, puuid, count);
     }
   }
   throw new BadRequestError(

@@ -29,7 +29,7 @@ export const get = async <T, D = any>(
 export const post = async <T, D = any>(
   url: string,
   data?: D,
-  config?: D
+  config?: AxiosRequestConfig<D>
 ): Promise<AxiosResponse<T, D>> => {
   const newConfig = addRiotApiKeyToConfig<HasAPIKey>(config);
   return await axios.post<T>(url, data, newConfig);
