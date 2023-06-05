@@ -14,9 +14,9 @@ app.use(morgan('combined'));
 app.use(express.json());
 // use cors for request
 app.use(cors());
-// setup v1 routes
-app.use('/api', router);
 // setup error handler
 app.use(errorHandler);
+// setup v1 routes
+app.use('/api', router);
 
 export default app;
