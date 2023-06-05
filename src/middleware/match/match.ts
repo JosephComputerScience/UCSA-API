@@ -29,10 +29,12 @@ export const validateQueryCountOrDefault20 = (
       }
     }
   } catch (e) {
-    if (e instanceof TypeError) {
+    if (e instanceof BadRequestError) {
+      console.log(e.message);
       throw e;
+    } else {
+      console.log(e);
     }
-    console.log(e);
     throw e;
   }
   next();
