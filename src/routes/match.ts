@@ -2,6 +2,9 @@
 import { Request, Response } from 'express';
 import Router from 'express-promise-router';
 // local imports
+// middleware
+import { validateQueryCountOrDefault20 } from '../middleware/match/match';
+//services
 import {
   getMatchesByPuidAndRegion,
   getMatchByMatchIdAndRegion,
@@ -10,10 +13,12 @@ import {
 
 // match router
 export const matchRouter = Router();
+// match router root endpoint
+matchRouter.use('/match', matchRouter);
 
 matchRouter
-  .route('/match/groupByChamp/:region/:puuid')
-  .get(async (req: Request, res: Response) => {
+  .route('/group-by-champ/:region/:puuid')
+  .get(validateQueryCountOrDefault20, async (req: Request, res: Response) => {
     const count = req.query.count as string;
     const result = await groupDataByChamp(
       req.params.puuid as string,
@@ -24,7 +29,7 @@ matchRouter
   });
 
 matchRouter
-  .route('/match/ids/:region/:puuid')
+  .route('/ids/:region/:puuid')
   .get(async (req: Request, res: Response) => {
     const count = req.query.count as string;
     const match = await getMatchesByPuidAndRegion(
@@ -36,7 +41,7 @@ matchRouter
   });
 
 matchRouter
-  .route('/match/:region/:matchId')
+  .route('/:region/:matchId')
   .get(async (req: Request, res: Response) => {
     const match = await getMatchByMatchIdAndRegion(
       req.params.matchId as string,
