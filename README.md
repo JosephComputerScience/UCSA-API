@@ -10,6 +10,7 @@ User Champion Stat Aggregator API
 # Patterns
 
 The API is currently utilizing the follow patterns:
+
 - Repository
 - DAO
 
@@ -20,3 +21,7 @@ The Repository Pattern will give us the abstraction and separation of logic bewe
 ## DAO Pattern
 
 The DAO Pattern will give us the abstration we need to separate how we access the database with Knex.
+
+## Dependency Injection pattern
+
+Dependency Injection is used to separate the creation of dependencies from the business logic and gives looser coupling. This also allows for easier unit tests.

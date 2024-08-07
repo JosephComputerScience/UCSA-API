@@ -4,11 +4,12 @@ import {
   RequestGenericInterface,
   FastifyListenOptions,
 } from 'fastify';
-import { UCSARequest, UCSAReply, UCSARoute } from './types/ucsa.route.typs';
+import { UCSARequest, UCSAReply, UCSARoute } from './types';
 import { ReplyGenericInterface } from 'fastify/types/reply';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
-import { User } from './schemas/user.schema';
-import userRouter from './routes/user.routes';
+import { User } from './schemas/userSchema';
+import userRouter from './routes/userRoute';
+import { UserController } from './controllers/userController';
 
 interface IQuerystring {
   username: string;
@@ -93,8 +94,14 @@ server.get<FastifyDemo>(
   }
 );
 
-/** example of using a plugin to bundle routes with a prefix */
-server.register(userRouter, { prefix: '/users' });
+// /** example of using a plugin to bundle routes with a prefix */
+// server.register(userRouter, { prefix: '/users' });
+
+/** DI EXAMPLE START */
+// create a service
+const userController = new UserController();
+server.register(userRouter(userController), { prefix: '/users' });
+/** DI EXAMPLE END */
 
 /** starting the fastify server */
 const listenOpts: FastifyListenOptions = { port: 8080 };
