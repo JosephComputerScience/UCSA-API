@@ -1,14 +1,19 @@
-import { User } from '../models/User';
+import { Summoner } from '../models/Summoner';
 import { db } from '../utils/db';
-import { IUserDAO } from './interfaces/IUserDAO';
-import { UserTRecord, UserTResult } from './recordInterfaces/userRecord';
+import { ISummonerDAO } from './interfaces/ISummonerDAO';
+import {
+  SummonerTRecord,
+  SummonerTResult,
+} from './recordInterfaces/summonerRecord';
 
-export class UserDAO implements IUserDAO {
+export class SummonerDAO implements ISummonerDAO {
   knex = db();
 
-  findByPuuid = async (puuid: string): Promise<User | null> => {
+  findByPuuid = async (puuid: string): Promise<Summoner | null> => {
     try {
-      const record = await this.knex<UserTRecord, UserTResult[]>('user')
+      const record = await this.knex<SummonerTRecord, SummonerTResult[]>(
+        'summoner'
+      )
         .select('*')
         .where({ puuid })
         .first();
@@ -16,7 +21,7 @@ export class UserDAO implements IUserDAO {
       if (!record) {
         return null;
       }
-      return new User(
+      return new Summoner(
         record.puuid,
         record.summonerName,
         record.tagLine,
@@ -35,9 +40,11 @@ export class UserDAO implements IUserDAO {
   findByNameAndTag = async (
     summonerName: string,
     tagLine: string
-  ): Promise<User | null> => {
+  ): Promise<Summoner | null> => {
     try {
-      const record = await this.knex<UserTRecord, UserTResult[]>('user')
+      const record = await this.knex<SummonerTRecord, SummonerTResult[]>(
+        'summoner'
+      )
         .select('*')
         .where({ summonerName, tagLine })
         .first();
@@ -45,7 +52,7 @@ export class UserDAO implements IUserDAO {
       if (!record) {
         return null;
       }
-      return new User(
+      return new Summoner(
         record.puuid,
         record.summonerName,
         record.tagLine,
@@ -61,24 +68,24 @@ export class UserDAO implements IUserDAO {
     }
   };
 
-  delete = async (user: User) => {
-    const record = await this.knex<UserTRecord>('user')
-      .where({ puuid: user.puuid })
+  delete = async (summoner: Summoner) => {
+    const record = await this.knex<SummonerTRecord>('summoner')
+      .where({ puuid: summoner.puuid })
       .del();
   };
 
-  save = async (user: User) => {
+  save = async (summoner: Summoner) => {
     try {
-      await this.knex<UserTRecord, UserTResult[]>('user')
-        .select('user.puuid')
-        .where({ puuid: user.puuid })
+      await this.knex<SummonerTRecord, SummonerTResult[]>('summoner')
+        .select('summoner.puuid')
+        .where({ puuid: summoner.puuid })
         .first();
     } catch (e) {
       console.log(e);
     }
   };
 
-  update = async (user: User) => {
+  update = async (summoner: Summoner) => {
     try {
       const {
         puuid,
@@ -87,8 +94,8 @@ export class UserDAO implements IUserDAO {
         profileIconId,
         updatedAt,
         tagLine,
-      } = user;
-      await this.knex<UserTRecord>('user').where({ puuid }).update({
+      } = summoner;
+      await this.knex<SummonerTRecord>('summoner').where({ puuid }).update({
         summonerName,
         summonerLevel,
         profileIconId,
