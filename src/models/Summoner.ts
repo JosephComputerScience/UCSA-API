@@ -1,7 +1,6 @@
-import { v4 as uuid } from 'uuid';
 import { IEditable } from './interfaces/IEditable';
 
-export class User implements IEditable {
+export class Summoner implements IEditable {
   private _puuid: string;
   private _summonerName: string;
   private _tagLine: string;

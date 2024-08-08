@@ -1,29 +1,29 @@
-import { IUserRepository } from './interfaces/IUserRepository';
+import { ISummonerRepository } from './interfaces/ISummonerRepository';
 import { RiotAccountDAO } from '../dao/RiotAccountDAO';
 import { RiotSummonerDAO } from '../dao/RiotSummonerDAO';
-import { User } from '../models/User';
+import { Summoner } from '../models/Summoner';
 import { IRiotAccountDAO } from '../dao/interfaces/IRiotAccountDAO';
 import { IRiotSummonerDAO } from '../dao/interfaces/IRiotSummonerDAO';
-import { IUserDAO } from '../dao/interfaces/IUserDAO';
+import { ISummonerDAO } from '../dao/interfaces/ISummonerDAO';
 
-class UserRepository implements IUserRepository {
+class SummonerRepository implements ISummonerRepository {
   private _riotAccountDAO: IRiotAccountDAO;
   private _riotSummonerDAO: IRiotSummonerDAO;
-  private _userDAO: IUserDAO;
+  private _summonerDAO: ISummonerDAO;
 
   constructor(
     riotAccountDAO: IRiotAccountDAO,
     riotSummonerDAO: IRiotSummonerDAO,
-    userDAO: IUserDAO
+    summonerDAO: ISummonerDAO
   ) {
     this._riotAccountDAO = riotAccountDAO;
     this._riotSummonerDAO = riotSummonerDAO;
-    this._userDAO = userDAO;
+    this._summonerDAO = summonerDAO;
   }
   findByNameAndTag = async (name: string, tagLine: string) => {
     try {
-      const user = await this._userDAO.findByNameAndTag(name, tagLine);
-      if (!user) {
+      const summoner = await this._summonerDAO.findByNameAndTag(name, tagLine);
+      if (!summoner) {
         const riotAccount = await this._riotAccountDAO.findByNameTagLine(
           name,
           tagLine
@@ -31,7 +31,7 @@ class UserRepository implements IUserRepository {
         const riotSummoner = await this._riotSummonerDAO.findByPuuid(
           riotAccount.puuid
         );
-        const newUser = new User(
+        const newSummoner = new Summoner(
           riotSummoner.puuid,
           name,
           tagLine,
@@ -42,12 +42,12 @@ class UserRepository implements IUserRepository {
           new Date(riotSummoner.revisionDate)
         );
 
-        await this._userDAO.save(newUser);
+        await this._summonerDAO.save(newSummoner);
 
-        return newUser;
+        return newSummoner;
       }
 
-      return user;
+      return summoner;
     } catch (e) {
       return null;
     }
@@ -55,11 +55,11 @@ class UserRepository implements IUserRepository {
 
   findByPuuid = async (puuid: string) => {
     try {
-      const user = await this._userDAO.findByPuuid(puuid);
-      if (!user) {
+      const summoner = await this._summonerDAO.findByPuuid(puuid);
+      if (!summoner) {
         const riotAccount = await this._riotAccountDAO.findByPuuid(puuid);
         const riotSummoner = await this._riotSummonerDAO.findByPuuid(puuid);
-        const newUser = new User(
+        const newSummoner = new Summoner(
           riotSummoner.puuid,
           riotAccount.gameName,
           riotAccount.tagLine,
@@ -70,20 +70,20 @@ class UserRepository implements IUserRepository {
           new Date(riotSummoner.revisionDate)
         );
 
-        await this._userDAO.save(newUser);
+        await this._summonerDAO.save(newSummoner);
 
-        return newUser;
+        return newSummoner;
       }
 
-      return user;
+      return summoner;
     } catch (e) {
       return null;
     }
   };
-  save = async (user: User) => {
-    await this._userDAO.save(user);
+  save = async (summoner: Summoner) => {
+    await this._summonerDAO.save(summoner);
   };
-  update = async (user: User) => {
-    await this._userDAO.update(user);
+  update = async (summoner: Summoner) => {
+    await this._summonerDAO.update(summoner);
   };
 }

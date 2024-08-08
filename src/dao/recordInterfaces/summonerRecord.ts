@@ -1,4 +1,4 @@
-export interface UserTRecord {
+export interface SummonerTRecord {
   puuid: string;
   summonerName: string;
   accountId: string;
@@ -9,7 +9,7 @@ export interface UserTRecord {
   tagLine: string;
 }
 
-export interface UserTResult {
+export interface SummonerTResult {
   puuid: string;
   summonerName: string;
   accountId: string;
