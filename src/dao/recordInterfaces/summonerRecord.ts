@@ -5,8 +5,9 @@ export interface SummonerTRecord {
   summonerId: string;
   summonerLevel: number;
   profileIconId: number;
-  updatedAt: Date;
   tagLine: string;
+  revisionDate: Date;
+  updatedAt: Date;
 }
 
 export interface SummonerTResult {
@@ -16,6 +17,7 @@ export interface SummonerTResult {
   summonerId: string;
   summonerLevel: number;
   profileIconId: number;
-  updatedAt: Date;
   tagLine: string;
+  revisionDate: Date;
+  updatedAt: Date;
 }

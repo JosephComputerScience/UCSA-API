@@ -1,25 +1,25 @@
-import { getRiotApiKey } from '../utils/getRiotApiKey';
-import { getRiotPlatformHost } from '../utils/getRiotPlatformHost';
-import { getRiotRegionalHost } from '../utils/getRiotRegionalHost';
+import { getRiotApiKey } from '../utils/riot/getRiotApiKey';
+import { getRiotPlatformHost } from '../utils/riot/getRiotPlatformHost';
+import { getRiotRegionalHost } from '../utils/riot/getRiotRegionalHost';
 
 /** Riot platform host urls  */
 export enum PLATFORM_HOST {
-  BR1 = 'br1.api.riotgames.com',
-  EUN1 = 'eun1.api.riotgames.com',
-  EUW1 = 'euw1.api.riotgames.com',
-  JP1 = 'jp1.api.riotgames.com',
-  KR = 'kr.api.riotgames.com',
-  LA1 = 'la1.api.riotgames.com',
-  LA2 = 'la2.api.riotgames.com',
-  NA1 = 'na1.api.riotgames.com',
-  OC1 = 'oc1.api.riotgames.com',
-  TR1 = 'tr1.api.riotgames.com',
-  RU = 'ru.api.riotgames.com',
-  PH2 = 'ph2.api.riotgames.com',
-  SG2 = 'sg2.api.riotgames.com',
-  TH2 = 'th2.api.riotgames.com',
-  TW2 = 'tw2.api.riotgames.com',
-  VN2 = 'vn2.api.riotgames.com',
+  BR1 = 'https://br1.api.riotgames.com',
+  EUN1 = 'https://eun1.api.riotgames.com',
+  EUW1 = 'https://euw1.api.riotgames.com',
+  JP1 = 'https://jp1.api.riotgames.com',
+  KR = 'https://kr.api.riotgames.com',
+  LA1 = 'https://la1.api.riotgames.com',
+  LA2 = 'https://la2.api.riotgames.com',
+  NA1 = 'https://na1.api.riotgames.com',
+  OC1 = 'https://oc1.api.riotgames.com',
+  TR1 = 'https://tr1.api.riotgames.com',
+  RU = 'https://ru.api.riotgames.com',
+  PH2 = 'https://ph2.api.riotgames.com',
+  SG2 = 'https://sg2.api.riotgames.com',
+  TH2 = 'https://th2.api.riotgames.com',
+  TW2 = 'https://tw2.api.riotgames.com',
+  VN2 = 'https://vn2.api.riotgames.com',
 }
 
 /** Riot platform types */
@@ -72,7 +72,7 @@ export const REGIONAL_HOST_URL = getRiotRegionalHost(
 export const RIOT_API_KEY = getRiotApiKey();
 
 /** Export module as well */
-const module = {
+const constants = {
   PLATFORM_HOST_URL,
   REGIONAL,
   REGIONAL_HOST,
@@ -80,4 +80,4 @@ const module = {
   RIOT_API_KEY,
 };
 
-export default module;
+export default constants;

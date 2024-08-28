@@ -8,6 +8,7 @@ export class SummonerRepository implements ISummonerRepository {
   constructor(summonerDAO: ISummonerDAO) {
     this._summonerDAO = summonerDAO;
   }
+
   findByNameAndTag = async (name: string, tagLine: string) => {
     try {
       return await this._summonerDAO.findByNameAndTag(name, tagLine);
@@ -28,5 +29,9 @@ export class SummonerRepository implements ISummonerRepository {
   };
   update = async (summoner: Summoner) => {
     await this._summonerDAO.update(summoner);
+  };
+
+  upsert = async (summoner: Summoner) => {
+    await this._summonerDAO.upsert(summoner);
   };
 }
