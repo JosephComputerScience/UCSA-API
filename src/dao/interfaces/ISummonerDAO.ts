@@ -6,7 +6,8 @@ export interface ISummonerDAO {
     summonerName: string,
     tagLine: string
   ) => Promise<Summoner | null>;
-  delete: (summoner: Summoner) => Promise<void>;
-  save: (summoner: Summoner) => Promise<void>;
-  update: (summoner: Summoner) => Promise<void>;
+  delete: (summoner: Summoner) => void;
+  save: (summoner: Summoner) => void;
+  update: (summoner: Summoner) => void;
+  upsert: (summoner: Summoner) => void;
 }

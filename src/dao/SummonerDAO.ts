@@ -1,3 +1,4 @@
+import { Knex } from 'knex';
 import { Summoner } from '../models/Summoner';
 import { db } from '../utils/db';
 import { ISummonerDAO } from './interfaces/ISummonerDAO';
@@ -7,7 +8,11 @@ import {
 } from './recordInterfaces/summonerRecord';
 
 export class SummonerDAO implements ISummonerDAO {
-  knex = db();
+  knex: Knex;
+
+  constructor(db: Knex) {
+    this.knex = db;
+  }
 
   findByPuuid = async (puuid: string): Promise<Summoner | null> => {
     try {
@@ -29,6 +34,7 @@ export class SummonerDAO implements ISummonerDAO {
         record.summonerId,
         record.summonerLevel,
         record.profileIconId,
+        record.revisionDate,
         record.updatedAt
       );
     } catch (e) {
@@ -42,7 +48,7 @@ export class SummonerDAO implements ISummonerDAO {
     tagLine: string
   ): Promise<Summoner | null> => {
     try {
-      const record = await this.knex<SummonerTRecord, SummonerTResult[]>(
+      const record = await this.knex<SummonerTRecord, SummonerTResult>(
         'summoner'
       )
         .select('*')
@@ -60,6 +66,7 @@ export class SummonerDAO implements ISummonerDAO {
         record.summonerId,
         record.summonerLevel,
         record.profileIconId,
+        record.revisionDate,
         record.updatedAt
       );
     } catch (e) {
@@ -74,10 +81,31 @@ export class SummonerDAO implements ISummonerDAO {
       .del();
   };
 
-  save = async (summoner: Summoner) => {
+  save = (summoner: Summoner): void => {
+    const {
+      puuid,
+      summonerName,
+      tagLine,
+      accountId,
+      summonerId,
+      summonerLevel,
+      profileIconId,
+      revisionDate,
+      updatedAt,
+    } = summoner;
     try {
-      await this.knex<SummonerTRecord, SummonerTResult[]>('summoner')
-        .select('summoner.puuid')
+      this.knex<SummonerTRecord, SummonerTResult[]>('summoner')
+        .insert({
+          puuid,
+          summonerName,
+          tagLine,
+          accountId,
+          summonerId,
+          summonerLevel,
+          profileIconId,
+          revisionDate,
+          updatedAt,
+        })
         .where({ puuid: summoner.puuid })
         .first();
     } catch (e) {
@@ -102,6 +130,38 @@ export class SummonerDAO implements ISummonerDAO {
         updatedAt,
         tagLine,
       });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  upsert = async (summoner: Summoner) => {
+    try {
+      const {
+        puuid,
+        summonerName,
+        tagLine,
+        accountId,
+        summonerId,
+        summonerLevel,
+        profileIconId,
+        revisionDate,
+        updatedAt,
+      } = summoner;
+      await this.knex<SummonerTRecord, SummonerTRecord>('summoner')
+        .insert({
+          puuid,
+          summonerName,
+          tagLine,
+          accountId,
+          summonerId,
+          summonerLevel,
+          profileIconId,
+          revisionDate,
+          updatedAt,
+        })
+        .onConflict('puuid')
+        .merge();
     } catch (e) {
       console.log(e);
     }

@@ -10,6 +10,7 @@ import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { User } from './schemas/userSchema';
 import userRouter from './routes/userRoute';
 import { UserController } from './controllers/userController';
+import summonerRouter from './routes/summonerRoute';
 
 interface IQuerystring {
   username: string;
@@ -99,8 +100,11 @@ server.get<FastifyDemo>(
 
 /** DI EXAMPLE START */
 // create a service
+// old example
 const userController = new UserController();
 server.register(userRouter(userController), { prefix: '/users' });
+// old example
+server.register(summonerRouter, { prefix: '/summoner' });
 /** DI EXAMPLE END */
 
 /** starting the fastify server */

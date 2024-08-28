@@ -1,3 +1,3 @@
-export interface IEditable {
-  update(update: Date): void;
+export interface IEditable<T> {
+  update: (update: T) => void;
 }

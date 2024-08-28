@@ -25,6 +25,7 @@ const userRoutes =
     done: HookHandlerDoneFunction
   ) => {
     fastify.get('/', userController.getIndex);
+
     done();
   };
 
