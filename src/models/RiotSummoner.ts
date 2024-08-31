@@ -1,10 +1,10 @@
 export class RiotSummoner {
-  private _accountId: string;
-  private _profileIconId: number;
-  private _revisionDate: Date;
-  private _summonerId: string;
-  private _puuid: string;
-  private _summonerLevel: number;
+  readonly accountId: string;
+  readonly profileIconId: number;
+  readonly revisionDate: Date;
+  readonly summonerId: string;
+  readonly puuid: string;
+  readonly summonerLevel: number;
 
   constructor(
     accountId: string,
@@ -14,30 +14,11 @@ export class RiotSummoner {
     puuid: string,
     summonerLevel: number
   ) {
-    this._accountId = accountId;
-    this._profileIconId = profileIconId;
-    this._revisionDate = revisionDate;
-    this._summonerId = summonerId;
-    this._puuid = puuid;
-    this._summonerLevel = summonerLevel;
-  }
-
-  get accountId() {
-    return this._accountId;
-  }
-  get profileIconId() {
-    return this._profileIconId;
-  }
-  get revisionDate() {
-    return this._revisionDate;
-  }
-  get summonerId() {
-    return this._summonerId;
-  }
-  get puuid() {
-    return this._puuid;
-  }
-  get summonerLevel() {
-    return this._summonerLevel;
+    this.accountId = accountId;
+    this.profileIconId = profileIconId;
+    this.revisionDate = revisionDate;
+    this.summonerId = summonerId;
+    this.puuid = puuid;
+    this.summonerLevel = summonerLevel;
   }
 }
