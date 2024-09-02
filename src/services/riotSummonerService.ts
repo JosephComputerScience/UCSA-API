@@ -5,6 +5,11 @@ import { PLATFORM_HOST_URL } from '../constants';
 import { RiotSummoner } from '../models/RiotSummoner';
 import { RiotSummonerDTO } from '../dto/RiotSummonerDTO';
 
+/**
+ * Retrieves League of Legends Summoner user data from Riot API.
+ * 
+ * Summoner user data API - https://developer.riotgames.com/apis#summoner-v4
+ */
 export class RiotSummonerService implements IRiotSummonerService {
   findByPuuid = async (puuid: string): Promise<RiotSummoner> => {
     try {

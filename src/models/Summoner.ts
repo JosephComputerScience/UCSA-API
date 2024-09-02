@@ -1,5 +1,3 @@
-import { BaseModel } from './BaseModel';
-
 export class Summoner {
   puuid: string;
   summonerName: string;

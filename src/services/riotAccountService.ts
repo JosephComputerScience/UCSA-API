@@ -5,6 +5,11 @@ import { REGIONAL_HOST_URL } from '../constants';
 import { RiotAccount } from '../models/RiotAccount';
 import { RiotAccountDTO } from '../dto/RiotAccountDTO';
 
+/**
+ * Retrieves account information from Riot about the user, not to be mistaken with game data such as LoL or Valorant, etc.
+ *
+ * Riot Account API - https://developer.riotgames.com/apis#account-v1
+ */
 export class RiotAccountService implements IRiotAccountService {
   findByPuuid = async (puuid: string): Promise<RiotAccount> => {
     try {
