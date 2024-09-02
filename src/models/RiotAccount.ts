@@ -1,6 +1,4 @@
-import { IRecord } from './interfaces/IRecord';
-
-export class RiotAccount implements IRecord {
+export class RiotAccount {
   readonly gameName: string;
   readonly puuid: string;
   readonly tagLine: string;

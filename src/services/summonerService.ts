@@ -5,6 +5,10 @@ import { IRiotAccountService } from './interfaces/IRiotAccountService';
 import { IRiotSummonerService } from './interfaces/IRiotSummonterService';
 import { ISummonerService } from './interfaces/ISummonerService';
 
+/**
+ * UCSA Summoner service retrieves Summoner data from the database
+ * and updates the summoner data from the Riot API if needed.
+ */
 export class SummonerService implements ISummonerService {
   private _summonerRepository: ISummonerRepository;
   private _riotAccountService: IRiotAccountService;
