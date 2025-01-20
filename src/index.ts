@@ -83,10 +83,7 @@ server.get<FastifyDemo>(
       done(username !== 'admin' ? new Error('Must be admin') : undefined); // if an error is passed middleware throws
     },
   },
-  async (
-    req: UCSARequest<FastifyDemoRequest>,
-    reply: UCSAReply<FastifyDemoReply>
-  ) => {
+  async (req: UCSARequest<FastifyDemoRequest>, reply: UCSAReply<FastifyDemoReply>) => {
     const { username, password } = req.query;
     const customHeader = req.headers['h-Custom'];
     reply.code(302).send({ url: 'holyshit' });
@@ -100,11 +97,14 @@ server.get<FastifyDemo>(
 
 /** DI EXAMPLE START */
 // create a service
-// old example
+// old example start
 const userController = new UserController();
 server.register(userRouter(userController), { prefix: '/users' });
-// old example
+// old example end
+
+// updated example start
 server.register(summonerRouter, { prefix: '/summoner' });
+// updated example end
 /** DI EXAMPLE END */
 
 /** starting the fastify server */

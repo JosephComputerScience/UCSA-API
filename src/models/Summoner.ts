@@ -8,6 +8,7 @@ export class Summoner {
   profileIconId: number;
   revisionDate: Date;
   updatedAt: Date;
+  lastManualUpdatedAt: Date;
 
   constructor(
     puuid: string,
@@ -18,7 +19,8 @@ export class Summoner {
     summonerLevel: number,
     profileIconId: number,
     revisionDate: Date,
-    updatedAt: Date
+    updatedAt: Date,
+    lastManualUpdatedAt: Date = new Date(Date.now())
   ) {
     this.puuid = puuid;
     this.summonerName = summonerName;
@@ -29,5 +31,6 @@ export class Summoner {
     this.profileIconId = profileIconId;
     this.revisionDate = revisionDate;
     this.updatedAt = updatedAt;
+    this.lastManualUpdatedAt = lastManualUpdatedAt;
   }
 }

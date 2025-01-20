@@ -1,4 +1,5 @@
-import { RiotQueue } from '../types';
+import { RiotQueue } from '../../types';
+
 /**
  * Riot queues are used to filter out matches from the Riot API.
  *
@@ -36,11 +37,3 @@ export const RIOT_QUEUES: RiotQueue = {
     notes: null,
   },
 };
-
-export enum RIOT_QUEUE_IDS {
-  ARAM = 'ARAM',
-  NORMAL_BLIND = 'NORMAL_BLIND',
-  NORMAL_DRAFT = 'NORMAL_DRAFT',
-  RANKED_FLEX = 'RANKED_FLEX',
-  RANKED_SOLO = 'RANKED_SOLO',
-}

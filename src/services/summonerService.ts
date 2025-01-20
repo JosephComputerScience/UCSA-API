@@ -1,9 +1,8 @@
 import { Summoner } from '../models/Summoner';
 import { ISummonerRepository } from '../repository/interfaces/ISummonerRepository';
 import { hasTimeElapsed } from '../utils/hasTimeElapsed';
-import { IRiotAccountService } from './interfaces/IRiotAccountService';
-import { IRiotSummonerService } from './interfaces/IRiotSummonterService';
 import { ISummonerService } from './interfaces/ISummonerService';
+import { RiotService } from './riotService';
 
 /**
  * UCSA Summoner service retrieves Summoner data from the database
@@ -11,17 +10,11 @@ import { ISummonerService } from './interfaces/ISummonerService';
  */
 export class SummonerService implements ISummonerService {
   private _summonerRepository: ISummonerRepository;
-  private _riotAccountService: IRiotAccountService;
-  private _riotSummonerService: IRiotSummonerService;
+  private _riotService: RiotService;
   // TODO: add IAggregatorRepository
-  constructor(
-    summonerRepository: ISummonerRepository,
-    riotAccountService: IRiotAccountService,
-    riotSummonerService: IRiotSummonerService
-  ) {
+  constructor(summonerRepository: ISummonerRepository, riotService: RiotService) {
     this._summonerRepository = summonerRepository;
-    this._riotAccountService = riotAccountService;
-    this._riotSummonerService = riotSummonerService;
+    this._riotService = riotService;
   }
 
   /**
@@ -32,48 +25,30 @@ export class SummonerService implements ISummonerService {
    * @param tagLine
    * @returns {Summoner}
    */
-  getSummoner = async (
+  getSummonerByNameAndTagline = async (
     summonerName: string,
     tagLine: string
   ): Promise<Summoner> => {
     // TODO: retrieve the latest user aggregate numbers.
-    // TODO: if not found in db retrieve from riot
     try {
-      let dbSummoner = await this._summonerRepository.findByNameAndTag(
-        summonerName,
-        tagLine
-      );
+      let dbSummoner = await this._summonerRepository.findByNameAndTag(summonerName, tagLine);
 
       const threeMins = 180000; // 3 mins in ms
       // Return summoner if found and data is not outdated by 3 mins
-      if (
-        dbSummoner &&
-        !hasTimeElapsed(dbSummoner.updatedAt.valueOf(), threeMins)
-      ) {
+      if (dbSummoner && !hasTimeElapsed(dbSummoner.updatedAt.valueOf(), threeMins)) {
         return dbSummoner;
       }
 
-      const riotAccount = await this._riotAccountService.findByNameTagLine(
-        summonerName,
-        tagLine
-      );
+      const riotAccount = await this._riotService.getAccountByNameTagLine(summonerName, tagLine);
 
       if (!riotAccount)
         throw new Error(
           `No user could be found with Summoner name: ${summonerName} and tag line: ${tagLine}`
         );
 
-      const riotSummoner = await this._riotSummonerService.findByPuuid(
-        riotAccount.puuid
-      );
+      const riotSummoner = await this._riotService.getSummonerByPuuid(riotAccount.puuid);
       const { puuid } = riotAccount;
-      const {
-        accountId,
-        summonerId,
-        summonerLevel,
-        profileIconId,
-        revisionDate,
-      } = riotSummoner;
+      const { accountId, summonerId, summonerLevel, profileIconId, revisionDate } = riotSummoner;
 
       const riotAPISummoner = new Summoner(
         puuid,
@@ -87,17 +62,8 @@ export class SummonerService implements ISummonerService {
         revisionDate
       );
 
-      // upsert if no summoner found in the db
-      // OR if the Riot API Summoner has been revisied/updated
-      // OR if summoner name and tag line belongs to a new user
-      if (
-        !dbSummoner ||
-        (dbSummoner.puuid === riotAPISummoner.puuid &&
-          dbSummoner.revisionDate !== riotAPISummoner.revisionDate) ||
-        dbSummoner.puuid !== riotAPISummoner.puuid
-      ) {
-        this._summonerRepository.upsert(riotAPISummoner);
-      }
+      // update db with summoner
+      this._summonerRepository.upsert(riotAPISummoner);
 
       return riotAPISummoner;
     } catch {

@@ -1,7 +1,7 @@
 import { getRiotApiKey } from '../utils/riot/getRiotApiKey';
-import { getRiotPlatformHost } from '../utils/riot/getRiotPlatformHost';
-import { getRiotRegionalHost } from '../utils/riot/getRiotRegionalHost';
-import { RIOT_QUEUES, RIOT_QUEUE_IDS } from './queuesJson';
+import { getRiotPlatformHost } from './riotConstants/getRiotPlatformHost';
+import { getRiotRegionalHost } from './riotConstants/getRiotRegionalHost';
+import { RIOT_QUEUES } from './riotConstants/riotQueues';
 
 /** Riot platform host urls  */
 export enum PLATFORM_HOST {
@@ -44,9 +44,7 @@ export enum PLATFORM {
 }
 
 /** UCSA current platform url based on env */
-export const PLATFORM_HOST_URL = getRiotPlatformHost(
-  process.env.PLATFORM ?? PLATFORM.NA1
-);
+export const PLATFORM_HOST_URL = getRiotPlatformHost(process.env.PLATFORM ?? PLATFORM.NA1);
 
 /** Riot regional host urls */
 export enum REGIONAL_HOST {
@@ -65,12 +63,18 @@ export enum REGIONAL {
 }
 
 /** UCSA current region url based on env */
-export const REGIONAL_HOST_URL = getRiotRegionalHost(
-  process.env.REGIONS ?? REGIONAL.AMERICAS
-);
+export const REGIONAL_HOST_URL = getRiotRegionalHost(process.env.REGIONS ?? REGIONAL.AMERICAS);
 
 /** Riot api key based on env */
 export const RIOT_API_KEY = getRiotApiKey();
+
+export enum RIOT_QUEUE_IDS {
+  ARAM = 'ARAM',
+  NORMAL_BLIND = 'NORMAL_BLIND',
+  NORMAL_DRAFT = 'NORMAL_DRAFT',
+  RANKED_FLEX = 'RANKED_FLEX',
+  RANKED_SOLO = 'RANKED_SOLO',
+}
 
 /** Export module as well */
 const constants = {
