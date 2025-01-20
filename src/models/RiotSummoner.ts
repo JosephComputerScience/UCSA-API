@@ -22,3 +22,12 @@ export class RiotSummoner {
     this.summonerLevel = summonerLevel;
   }
 }
+
+export interface RiotSummoner {
+  readonly accountId: string;
+  readonly profileIconId: number;
+  readonly revisionDate: Date;
+  readonly summonerId: string;
+  readonly puuid: string;
+  readonly summonerLevel: number;
+}

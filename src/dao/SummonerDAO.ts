@@ -1,24 +1,18 @@
 import { Knex } from 'knex';
 import { Summoner } from '../models/Summoner';
-import { db } from '../utils/db';
 import { ISummonerDAO } from './interfaces/ISummonerDAO';
-import {
-  SummonerTRecord,
-  SummonerTResult,
-} from './recordInterfaces/summonerRecord';
+import { SummonerTRecord } from './recordInterfaces/summonerRecord';
 
 export class SummonerDAO implements ISummonerDAO {
   knex: Knex;
 
-  constructor(db: Knex) {
-    this.knex = db;
+  constructor(knex: Knex) {
+    this.knex = knex;
   }
 
   findByPuuid = async (puuid: string): Promise<Summoner | null> => {
     try {
-      const record = await this.knex<SummonerTRecord, SummonerTResult[]>(
-        'summoner'
-      )
+      const record = await this.knex<SummonerTRecord>('summoner')
         .select('*')
         .where({ puuid })
         .first();
@@ -43,14 +37,9 @@ export class SummonerDAO implements ISummonerDAO {
     }
   };
 
-  findByNameAndTag = async (
-    summonerName: string,
-    tagLine: string
-  ): Promise<Summoner | null> => {
+  findByNameAndTag = async (summonerName: string, tagLine: string): Promise<Summoner | null> => {
     try {
-      const record = await this.knex<SummonerTRecord, SummonerTResult>(
-        'summoner'
-      )
+      const record = await this.knex<SummonerTRecord>('summoner')
         .select('*')
         .where({ summonerName, tagLine })
         .first();
@@ -94,7 +83,7 @@ export class SummonerDAO implements ISummonerDAO {
       updatedAt,
     } = summoner;
     try {
-      this.knex<SummonerTRecord, SummonerTResult[]>('summoner')
+      this.knex<SummonerTRecord>('summoner')
         .insert({
           puuid,
           summonerName,
@@ -115,14 +104,7 @@ export class SummonerDAO implements ISummonerDAO {
 
   update = async (summoner: Summoner) => {
     try {
-      const {
-        puuid,
-        summonerName,
-        summonerLevel,
-        profileIconId,
-        updatedAt,
-        tagLine,
-      } = summoner;
+      const { puuid, summonerName, summonerLevel, profileIconId, updatedAt, tagLine } = summoner;
       await this.knex<SummonerTRecord>('summoner').where({ puuid }).update({
         summonerName,
         summonerLevel,
@@ -148,7 +130,7 @@ export class SummonerDAO implements ISummonerDAO {
         revisionDate,
         updatedAt,
       } = summoner;
-      await this.knex<SummonerTRecord, SummonerTRecord>('summoner')
+      await this.knex<SummonerTRecord>('summoner')
         .insert({
           puuid,
           summonerName,
