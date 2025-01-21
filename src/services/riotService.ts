@@ -1,7 +1,8 @@
-import axios, { AxiosResponse } from 'axios';
-import { IRiotAccountService } from './interfaces/IRiotAccount';
-import { IRiotLeagueMatchService } from './interfaces/IRiotLeagueMatch';
-import { IRiotSummonerService } from './interfaces/IRiotSummoner';
+import { AxiosResponse } from 'axios';
+import { request } from '../utils/request';
+import { IRiotAccountService } from './interfaces/IRiotAccountService';
+import { IRiotLeagueMatchService } from './interfaces/IRiotLeagueMatchService';
+import { IRiotSummonerService } from './interfaces/IRiotSummonerService';
 import { getRiotHeaders } from '../utils/riot/getRiotHeaders';
 import { REGIONAL_HOST_URL } from '../constants';
 import { RiotAccount } from '../models/RiotAccount';
@@ -11,6 +12,12 @@ import { RiotSummoner } from '../models/RiotSummoner';
 import { RiotSummonerDTO } from '../dto/RiotSummonerDTO';
 import { RiotMatchDTO } from '../dto/RiotMatchDTO';
 
+/**
+ * Riot Third Party API
+ * IRiotAccountService - https://developer.riotgames.com/apis#account-v1
+ * IRiotLeagueMatchService - https://developer.riotgames.com/apis#match-v5
+ * IRiotSummonerService - https://developer.riotgames.com/apis#summoner-v4
+ */
 export class RiotService
   implements IRiotAccountService, IRiotLeagueMatchService, IRiotSummonerService
 {
@@ -19,7 +26,7 @@ export class RiotService
   getAccountByPuuid = async (puuid: string): Promise<RiotAccount> => {
     try {
       const url = `${REGIONAL_HOST_URL}/riot/account/v1/accounts/by-puuid/${puuid}`;
-      const resp: AxiosResponse<RiotAccountDTO> = await axios.get(url, {
+      const resp: AxiosResponse<RiotAccountDTO> = await request.get(url, {
         headers: this._riotHeaders,
       });
       const { gameName, tagLine } = resp.data;
@@ -32,7 +39,7 @@ export class RiotService
   getAccountByNameTagLine = async (gameName: string, tagLine: string): Promise<RiotAccount> => {
     try {
       const url = `${REGIONAL_HOST_URL}/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`;
-      const resp: AxiosResponse<RiotAccountDTO> = await axios.get(url, {
+      const resp: AxiosResponse<RiotAccountDTO> = await request.get(url, {
         headers: this._riotHeaders,
       });
       const { puuid } = resp.data;
@@ -50,7 +57,7 @@ export class RiotService
     count: number = 20
   ): Promise<string[]> => {
     const url = `${REGIONAL_HOST_URL}/lol/match/v5/matches/by-puuid/${puuid}/ids`;
-    const resp: AxiosResponse<string[]> = await axios.get(url, {
+    const resp: AxiosResponse<string[]> = await request.get(url, {
       headers: this._riotHeaders,
       params: { queue: queueId, count },
     });
@@ -60,7 +67,7 @@ export class RiotService
   getMatchesByMatchIds = async (matchIds: string[]) => {
     const matchPromises = matchIds.map((id) => {
       const url = `${REGIONAL_HOST_URL}/lol/match/v5/matches/${id}`;
-      return axios.get<RiotMatchDTO>(url, {
+      return request.get<RiotMatchDTO>(url, {
         headers: this._riotHeaders,
       });
     });
@@ -83,7 +90,7 @@ export class RiotService
       const url = `${PLATFORM_HOST_URL}/lol/summoner/v4/summoners/by-puuid/${encodeURIComponent(
         puuid
       )}`;
-      const resp: AxiosResponse<RiotSummonerDTO> = await axios.get(url, {
+      const resp: AxiosResponse<RiotSummonerDTO> = await request.get(url, {
         headers: this._riotHeaders,
       });
       const { accountId, profileIconId, revisionDate, id, summonerLevel } = resp.data;
