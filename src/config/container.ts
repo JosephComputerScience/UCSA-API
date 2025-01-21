@@ -21,4 +21,4 @@ const matchService = new MatchService(riotService);
 // Controller initializations
 const summonerController = new SummonerController(summonerService);
 
-export { summonerService, summonerController };
+export { riotService, summonerService, summonerController };

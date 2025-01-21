@@ -3,6 +3,7 @@ import { FastifyInstance, FastifyPluginOptions, HookHandlerDoneFunction } from '
 // import { getIndex } from '../controllers/userController';
 import { UserController } from '../controllers/userController';
 // import { summonerController } from '../config/container';
+import { test } from '../controllers/test';
 
 // const userRoutes = (
 //   fastify: FastifyInstance,
@@ -27,6 +28,7 @@ const summonerRouter = (
 ) => {
   // instance.get('/:summonerName/:tagLine', summonerController.getSummonerByNameAndTag);
   // instance.get('/:puuid', summonerController.getSummonerByPuuid)
+  instance.get('/:puuid', test);
   done();
 };
 
