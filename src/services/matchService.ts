@@ -1,5 +1,5 @@
 import { MATCH_STRATEGIES } from '../constants/matchStrategies';
-import { MatchStrategy } from '../strategy/match/MatchStrategy';
+import { MatchStrategyFactory } from '../factory/match/matchStrategyFactory';
 
 /**
  * Updates the users latest match history from the respective
@@ -13,19 +13,19 @@ import { MatchStrategy } from '../strategy/match/MatchStrategy';
  *
  */
 export class MatchService {
-  private _matchStrategy: MatchStrategy;
+  private _matchStrategyFactory: MatchStrategyFactory;
 
-  constructor(matchStrategy: MatchStrategy) {
-    this._matchStrategy = matchStrategy;
+  constructor(matchStrategyFactory: MatchStrategyFactory) {
+    this._matchStrategyFactory = matchStrategyFactory;
   }
 
   getMatches = (id: string, gameType: keyof typeof MATCH_STRATEGIES) => {
-    const strategy = this._matchStrategy.getMatchStrategy(gameType);
+    const strategy = this._matchStrategyFactory.getMatchStrategy(gameType);
     return strategy.getMatchesByUserId(id);
   };
 
   updateMatches = (id: string, gameType: keyof typeof MATCH_STRATEGIES) => {
-    const strategy = this._matchStrategy.getMatchStrategy(gameType);
+    const strategy = this._matchStrategyFactory.getMatchStrategy(gameType);
     strategy.updateMatchesByUserId(id);
   };
 }
