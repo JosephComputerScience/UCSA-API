@@ -1,7 +1,6 @@
 import { getRiotApiKey } from '../utils/riot/getRiotApiKey';
-import { getRiotPlatformHost } from './riotConstants/getRiotPlatformHost';
-import { getRiotRegionalHost } from './riotConstants/getRiotRegionalHost';
-import { RIOT_QUEUES } from './riotConstants/riotQueues';
+import { getRiotPlatformHost, getRiotRegionalHost, RIOT_QUEUES } from './riotConstants';
+import { MATCH_STRATEGIES } from './matchStrategies';
 
 /** Riot platform host urls  */
 export enum PLATFORM_HOST {
@@ -78,6 +77,7 @@ export enum RIOT_QUEUE_IDS {
 
 /** Export module as well */
 const constants = {
+  MATCH_STRATEGIES,
   PLATFORM_HOST_URL,
   REGIONAL,
   REGIONAL_HOST,
