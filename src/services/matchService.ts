@@ -1,49 +1,31 @@
-import { RIOT_QUEUE_IDS } from '../constants';
-import { RIOT_QUEUES } from '../constants/riotConstants/riotQueues';
-import { RiotAccount } from '../models/RiotAccount';
-import { RiotService } from './riotService';
+import { MATCH_STRATEGIES } from '../constants/matchStrategies';
+import { MatchStrategy } from '../strategy/match/MatchStrategy';
 
 /**
- * this service should retrieve just the latest
- * matches and should verify if the latest match
- * is already in the db to avoid reaggregating data
- **/
+ * Updates the users latest match history from the respective
+ * game api to the database.
+ *
+ * Retrieves the users match history in the database.
+ *
+ * Uses the strategy pattern to encapsulate behavior to be able
+ * to pull matches from the database or update the database from
+ * each games respective third party api.
+ *
+ */
 export class MatchService {
-  riotService: RiotService;
+  private _matchStrategy: MatchStrategy;
 
-  constructor(riotService: RiotService) {
-    this.riotService = riotService;
+  constructor(matchStrategy: MatchStrategy) {
+    this._matchStrategy = matchStrategy;
   }
 
-  getMatchesByGameByNameAndTag = async (
-    summonerName: string,
-    tagLine: string,
-    queueId: RIOT_QUEUE_IDS,
-    count = 20
-  ) => {
-    const riotAccount: RiotAccount = await this.riotService.getAccountByNameTagLine(
-      summonerName,
-      tagLine
-    );
-
-    const { queueId: matchType } = RIOT_QUEUES[queueId];
-    const matchIds = await this.riotService.getMatchIdsByPuuid(riotAccount.puuid, matchType, count);
-    return this.riotService.getMatchesByMatchIds(matchIds);
+  getMatches = (id: string, gameType: keyof typeof MATCH_STRATEGIES) => {
+    const strategy = this._matchStrategy.getMatchStrategy(gameType);
+    return strategy.getMatchesByUserId(id);
   };
 
-  updateMatchesByGameByNameAndTag = async (
-    summonerName: string,
-    tagLine: string,
-    queueId: RIOT_QUEUE_IDS,
-    count = 20
-  ) => {
-    const riotAccount: RiotAccount = await this.riotService.getAccountByNameTagLine(
-      summonerName,
-      tagLine
-    );
-
-    const { queueId: matchType } = RIOT_QUEUES[queueId];
-    const matchIds = await this.riotService.getMatchIdsByPuuid(riotAccount.puuid, matchType, count);
-    return this.riotService.getMatchesByMatchIds(matchIds);
+  updateMatches = (id: string, gameType: keyof typeof MATCH_STRATEGIES) => {
+    const strategy = this._matchStrategy.getMatchStrategy(gameType);
+    strategy.updateMatchesByUserId(id);
   };
 }
