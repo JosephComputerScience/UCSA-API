@@ -1,4 +1,4 @@
-import { MATCH_STRATEGIES } from '../constants/matchStrategies';
+import { MATCH_AGGREGATE_STRATEGIES } from '../constants/matchAggregateStrategies';
 import { MatchAggregateFactory } from '../factory/matchAggregate/matchAggregateFactory';
 
 /**
@@ -19,7 +19,7 @@ export class MatchAggregateService {
     this._matchStrategyFactory = matchStrategyFactory;
   }
 
-  getMatches = async (id: string, gameType: keyof typeof MATCH_STRATEGIES) => {
+  getMatches = async (id: string, gameType: keyof typeof MATCH_AGGREGATE_STRATEGIES) => {
     const strategy = this._matchStrategyFactory.getMatchAggregateStrategy(gameType);
     const results = await strategy.aggregateMatches(gameType);
     return results;
