@@ -1,4 +1,4 @@
-import { RIOT_QUEUE_IDS } from '../constants';
+import type { RIOT_QUEUE_IDS } from "../constants";
 
 export type RiotQueueType = {
   queueId: number;

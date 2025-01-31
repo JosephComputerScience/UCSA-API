@@ -1,4 +1,4 @@
-import { RiotAccount } from '../../models/RiotAccount';
+import type { RiotAccount } from "../../models/RiotAccount";
 
 /**
  * Riot third party api connecting to the account endpoint - https://developer.riotgames.com/apis#account-v1

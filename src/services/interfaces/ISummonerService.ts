@@ -1,4 +1,4 @@
-import { Summoner } from '../../models/Summoner';
+import type { Summoner } from "../../models/Summoner";
 
 export interface ISummonerService {
   getSummonerByNameAndTagline(summonerName: string, tagLine: string): Promise<Summoner | null>;

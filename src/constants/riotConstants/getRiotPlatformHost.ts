@@ -1,4 +1,4 @@
-import { PLATFORM, PLATFORM_HOST } from '../index';
+import { PLATFORM, PLATFORM_HOST } from "../index";
 
 export const getRiotPlatformHost = (platform: string) => {
   switch (platform) {

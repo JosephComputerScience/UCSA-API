@@ -1,5 +1,5 @@
-import { IMatchAggregateStrategy } from '../../strategy/matchAggregate/interface/IMatchAggregateStrategy';
-import { MATCH_AGGREGATE_STRATEGIES } from '../../constants/matchAggregateStrategies';
+import { MATCH_AGGREGATE_STRATEGIES } from "../../constants/matchAggregateStrategies";
+import type { IMatchAggregateStrategy } from "../../strategy/matchAggregate/interface/IMatchAggregateStrategy";
 
 /**
  * Uses the strategy factory pattern to return the correct match aggregate

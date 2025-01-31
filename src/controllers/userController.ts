@@ -1,8 +1,6 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyReply, FastifyRequest } from "fastify";
 
 export class UserController {
-  constructor() {}
-
   getIndex = (req: FastifyRequest, reply: FastifyReply) => {
     return reply.send({ success: true });
   };

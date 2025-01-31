@@ -20,7 +20,7 @@ export class Summoner {
     profileIconId: number,
     revisionDate: Date,
     updatedAt: Date,
-    lastManualUpdatedAt: Date = new Date(Date.now())
+    lastManualUpdatedAt: Date = new Date(Date.now()),
   ) {
     this.puuid = puuid;
     this.summonerName = summonerName;

@@ -1,5 +1,5 @@
-import { IMatchStrategy } from '../../strategy/match/interface/IMatchStrategy';
-import { MATCH_STRATEGIES } from '../../constants/matchStrategies';
+import { MATCH_STRATEGIES } from "../../constants/matchStrategies";
+import type { IMatchStrategy } from "../../strategy/match/interface/IMatchStrategy";
 
 /**
  * Uses the strategy factory pattern to return the correct game service

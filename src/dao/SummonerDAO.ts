@@ -1,7 +1,7 @@
-import { Knex } from 'knex';
-import { Summoner } from '../models/Summoner';
-import { ISummonerDAO } from './interfaces/ISummonerDAO';
-import { SummonerTRecord } from './recordInterfaces/summonerRecord';
+import type { Knex } from "knex";
+import { Summoner } from "../models/Summoner";
+import type { ISummonerDAO } from "./interfaces/ISummonerDAO";
+import type { SummonerTRecord } from "./recordInterfaces/summonerRecord";
 
 export class SummonerDAO implements ISummonerDAO {
   knex: Knex;
@@ -12,10 +12,7 @@ export class SummonerDAO implements ISummonerDAO {
 
   findByPuuid = async (puuid: string): Promise<Summoner | null> => {
     try {
-      const record = await this.knex<SummonerTRecord>('summoner')
-        .select('*')
-        .where({ puuid })
-        .first();
+      const record = await this.knex<SummonerTRecord>("summoner").select("*").where({ puuid }).first();
 
       if (!record) {
         return null;
@@ -29,7 +26,7 @@ export class SummonerDAO implements ISummonerDAO {
         record.summonerLevel,
         record.profileIconId,
         record.revisionDate,
-        record.updatedAt
+        record.updatedAt,
       );
     } catch (e) {
       console.log(e);
@@ -39,10 +36,7 @@ export class SummonerDAO implements ISummonerDAO {
 
   findByNameAndTag = async (summonerName: string, tagLine: string): Promise<Summoner | null> => {
     try {
-      const record = await this.knex<SummonerTRecord>('summoner')
-        .select('*')
-        .where({ summonerName, tagLine })
-        .first();
+      const record = await this.knex<SummonerTRecord>("summoner").select("*").where({ summonerName, tagLine }).first();
 
       if (!record) {
         return null;
@@ -56,7 +50,7 @@ export class SummonerDAO implements ISummonerDAO {
         record.summonerLevel,
         record.profileIconId,
         record.revisionDate,
-        record.updatedAt
+        record.updatedAt,
       );
     } catch (e) {
       console.log(e);
@@ -65,25 +59,13 @@ export class SummonerDAO implements ISummonerDAO {
   };
 
   delete = async (summoner: Summoner) => {
-    const record = await this.knex<SummonerTRecord>('summoner')
-      .where({ puuid: summoner.puuid })
-      .del();
+    const record = await this.knex<SummonerTRecord>("summoner").where({ puuid: summoner.puuid }).del();
   };
 
   save = (summoner: Summoner): void => {
-    const {
-      puuid,
-      summonerName,
-      tagLine,
-      accountId,
-      summonerId,
-      summonerLevel,
-      profileIconId,
-      revisionDate,
-      updatedAt,
-    } = summoner;
+    const { puuid, summonerName, tagLine, accountId, summonerId, summonerLevel, profileIconId, revisionDate, updatedAt } = summoner;
     try {
-      this.knex<SummonerTRecord>('summoner')
+      this.knex<SummonerTRecord>("summoner")
         .insert({
           puuid,
           summonerName,
@@ -105,7 +87,7 @@ export class SummonerDAO implements ISummonerDAO {
   update = async (summoner: Summoner) => {
     try {
       const { puuid, summonerName, summonerLevel, profileIconId, updatedAt, tagLine } = summoner;
-      await this.knex<SummonerTRecord>('summoner').where({ puuid }).update({
+      await this.knex<SummonerTRecord>("summoner").where({ puuid }).update({
         summonerName,
         summonerLevel,
         profileIconId,
@@ -119,18 +101,8 @@ export class SummonerDAO implements ISummonerDAO {
 
   upsert = async (summoner: Summoner) => {
     try {
-      const {
-        puuid,
-        summonerName,
-        tagLine,
-        accountId,
-        summonerId,
-        summonerLevel,
-        profileIconId,
-        revisionDate,
-        updatedAt,
-      } = summoner;
-      await this.knex<SummonerTRecord>('summoner')
+      const { puuid, summonerName, tagLine, accountId, summonerId, summonerLevel, profileIconId, revisionDate, updatedAt } = summoner;
+      await this.knex<SummonerTRecord>("summoner")
         .insert({
           puuid,
           summonerName,
@@ -142,7 +114,7 @@ export class SummonerDAO implements ISummonerDAO {
           revisionDate,
           updatedAt,
         })
-        .onConflict('puuid')
+        .onConflict("puuid")
         .merge();
     } catch (e) {
       console.log(e);

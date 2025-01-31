@@ -1,4 +1,4 @@
-import { Summoner } from '../../models/Summoner';
+import type { Summoner } from "../../models/Summoner";
 
 export interface ISummonerRepository {
   findByNameAndTag: (name: string, tag: string) => Promise<Summoner | null>;
