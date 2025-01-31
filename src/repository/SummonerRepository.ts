@@ -1,6 +1,6 @@
-import { ISummonerRepository } from './interfaces/ISummonerRepository';
-import { Summoner } from '../models/Summoner';
-import { ISummonerDAO } from '../dao/interfaces/ISummonerDAO';
+import type { ISummonerDAO } from "../dao/interfaces/ISummonerDAO";
+import type { Summoner } from "../models/Summoner";
+import type { ISummonerRepository } from "./interfaces/ISummonerRepository";
 
 export class SummonerRepository implements ISummonerRepository {
   private _summonerDAO: ISummonerDAO;

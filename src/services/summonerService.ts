@@ -1,8 +1,8 @@
-import { Summoner } from '../models/Summoner';
-import { ISummonerRepository } from '../repository/interfaces/ISummonerRepository';
-import { hasTimeElapsed } from '../utils/hasTimeElapsed';
-import { ISummonerService } from './interfaces/ISummonerService';
-import { RiotService } from './riotService';
+import { Summoner } from "../models/Summoner";
+import type { ISummonerRepository } from "../repository/interfaces/ISummonerRepository";
+import { hasTimeElapsed } from "../utils/hasTimeElapsed";
+import type { ISummonerService } from "./interfaces/ISummonerService";
+import type { RiotService } from "./riotService";
 
 /**
  * UCSA Summoner service retrieves Summoner data from the database
@@ -25,13 +25,10 @@ export class SummonerService implements ISummonerService {
    * @param tagLine
    * @returns {Summoner}
    */
-  getSummonerByNameAndTagline = async (
-    summonerName: string,
-    tagLine: string
-  ): Promise<Summoner> => {
+  getSummonerByNameAndTagline = async (summonerName: string, tagLine: string): Promise<Summoner> => {
     // TODO: retrieve the latest user aggregate numbers.
     try {
-      let dbSummoner = await this._summonerRepository.findByNameAndTag(summonerName, tagLine);
+      const dbSummoner = await this._summonerRepository.findByNameAndTag(summonerName, tagLine);
 
       const threeMins = 180000; // 3 mins in ms
       // Return summoner if found and data is not outdated by 3 mins
@@ -41,10 +38,7 @@ export class SummonerService implements ISummonerService {
 
       const riotAccount = await this._riotService.getAccountByNameTagLine(summonerName, tagLine);
 
-      if (!riotAccount)
-        throw new Error(
-          `No user could be found with Summoner name: ${summonerName} and tag line: ${tagLine}`
-        );
+      if (!riotAccount) throw new Error(`No user could be found with Summoner name: ${summonerName} and tag line: ${tagLine}`);
 
       const riotSummoner = await this._riotService.getSummonerByPuuid(riotAccount.puuid);
       const { puuid } = riotAccount;
@@ -59,7 +53,7 @@ export class SummonerService implements ISummonerService {
         summonerLevel,
         profileIconId,
         revisionDate,
-        revisionDate
+        revisionDate,
       );
 
       // update db with summoner
@@ -67,9 +61,7 @@ export class SummonerService implements ISummonerService {
 
       return riotAPISummoner;
     } catch {
-      throw new Error(
-        `No user could be found with Summoner name: ${summonerName} and tag line: ${tagLine}`
-      );
+      throw new Error(`No user could be found with Summoner name: ${summonerName} and tag line: ${tagLine}`);
     }
   };
 }

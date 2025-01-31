@@ -1,4 +1,4 @@
-import { REGIONAL, REGIONAL_HOST } from '../index';
+import { REGIONAL, REGIONAL_HOST } from "../index";
 
 export const getRiotRegionalHost = (region: string) => {
   switch (region) {

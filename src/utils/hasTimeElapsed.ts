@@ -4,5 +4,4 @@
  * @param amountOfTime Amount of time to verify in ms.
  * @returns {boolean} Whether the amountOfTime has passed.
  */
-export const hasTimeElapsed = (time: number, amountOfTime: number): boolean =>
-  Date.now() - time > amountOfTime;
+export const hasTimeElapsed = (time: number, amountOfTime: number): boolean => Date.now() - time > amountOfTime;

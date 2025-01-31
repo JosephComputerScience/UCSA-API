@@ -4,26 +4,32 @@
   "description": "User Champion Stat Aggregator API",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "check": "biome check --write",
+    "format": "biome format --write",
+    "lint": "biome lint --write",
+    "test": "echo \"Error: no test specified\" && exit 0",
     "build": "tsc -p tsconfig.json",
     "dev": "node --env-file=.env -r ts-node/register --watch-path src/ src/index.ts",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fastify/type-provider-typebox": "^4.0.0",
-    "@sinclair/typebox": "^0.32.34",
-    "axios": "^1.7.2",
-    "fastify": "^4.28.1",
+    "@fastify/type-provider-typebox": "^4.1.0",
+    "@sinclair/typebox": "^0.32.35",
+    "axios": "^1.7.9",
+    "fastify": "^4.29.0",
     "knex": "^3.1.0",
-    "pg": "^8.12.0",
+    "pg": "^8.13.1",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.14.10",
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^20.17.16",
     "@types/uuid": "^10.0.0",
+    "husky": "^9.1.7",
     "ts-node": "^10.9.2"
   }
 }

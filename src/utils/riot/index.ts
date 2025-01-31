@@ -1,2 +1,2 @@
-export * from './getRiotApiKey';
-export * from './getRiotHeaders';
+export * from "./getRiotApiKey";
+export * from "./getRiotHeaders";

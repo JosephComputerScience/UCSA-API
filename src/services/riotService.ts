@@ -1,16 +1,16 @@
-import { AxiosResponse } from 'axios';
-import { request } from '../utils/request';
-import { IRiotAccountService } from './interfaces/IRiotAccountService';
-import { IRiotLeagueMatchService } from './interfaces/IRiotLeagueMatchService';
-import { IRiotSummonerService } from './interfaces/IRiotSummonerService';
-import { getRiotHeaders } from '../utils/riot/getRiotHeaders';
-import { REGIONAL_HOST_URL } from '../constants';
-import { RiotAccount } from '../models/RiotAccount';
-import { RiotAccountDTO } from '../dto/RiotAccountDTO';
-import { PLATFORM_HOST_URL } from '../constants';
-import { RiotSummoner } from '../models/RiotSummoner';
-import { RiotSummonerDTO } from '../dto/RiotSummonerDTO';
-import { RiotMatchDTO } from '../dto/RiotMatchDTO';
+import type { AxiosResponse } from "axios";
+import { REGIONAL_HOST_URL } from "../constants";
+import { PLATFORM_HOST_URL } from "../constants";
+import type { RiotAccountDTO } from "../dto/RiotAccountDTO";
+import type { RiotMatchDTO } from "../dto/RiotMatchDTO";
+import type { RiotSummonerDTO } from "../dto/RiotSummonerDTO";
+import type { RiotAccount } from "../models/RiotAccount";
+import { RiotSummoner } from "../models/RiotSummoner";
+import { request } from "../utils/request";
+import { getRiotHeaders } from "../utils/riot/getRiotHeaders";
+import type { IRiotAccountService } from "./interfaces/IRiotAccountService";
+import type { IRiotLeagueMatchService } from "./interfaces/IRiotLeagueMatchService";
+import type { IRiotSummonerService } from "./interfaces/IRiotSummonerService";
 
 /**
  * Riot Third Party API
@@ -18,9 +18,7 @@ import { RiotMatchDTO } from '../dto/RiotMatchDTO';
  * IRiotLeagueMatchService - https://developer.riotgames.com/apis#match-v5
  * IRiotSummonerService - https://developer.riotgames.com/apis#summoner-v4
  */
-export class RiotService
-  implements IRiotAccountService, IRiotLeagueMatchService, IRiotSummonerService
-{
+export class RiotService implements IRiotAccountService, IRiotLeagueMatchService, IRiotSummonerService {
   private _riotHeaders = getRiotHeaders();
 
   getAccountByPuuid = async (puuid: string): Promise<RiotAccount> => {
@@ -45,17 +43,11 @@ export class RiotService
       const { puuid } = resp.data;
       return { gameName, puuid, tagLine };
     } catch {
-      throw new Error(
-        `Could not find Riot account with summoner name: ${gameName} and tag line: ${tagLine}`
-      );
+      throw new Error(`Could not find Riot account with summoner name: ${gameName} and tag line: ${tagLine}`);
     }
   };
 
-  getMatchIdsByPuuid = async (
-    puuid: string,
-    queueId: number,
-    count: number = 20
-  ): Promise<string[]> => {
+  getMatchIdsByPuuid = async (puuid: string, queueId: number, count = 20): Promise<string[]> => {
     const url = `${REGIONAL_HOST_URL}/lol/match/v5/matches/by-puuid/${puuid}/ids`;
     const resp: AxiosResponse<string[]> = await request.get(url, {
       headers: this._riotHeaders,
@@ -75,34 +67,25 @@ export class RiotService
     const matches: RiotMatchDTO[] = [];
     const errors: string[] = [];
     responses.map((resp) => {
-      if (resp.status === 'fulfilled') {
+      if (resp.status === "fulfilled") {
         matches.push(resp.value.data);
       } else {
         errors.push(resp.reason);
       }
     });
-    console.log('RIOT_SERVICE', `getMatchesByIds errors: ${JSON.stringify(errors)}`);
+    console.log("RIOT_SERVICE", `getMatchesByIds errors: ${JSON.stringify(errors)}`);
     return matches;
   };
 
   getSummonerByPuuid = async (puuid: string): Promise<RiotSummoner> => {
     try {
-      const url = `${PLATFORM_HOST_URL}/lol/summoner/v4/summoners/by-puuid/${encodeURIComponent(
-        puuid
-      )}`;
+      const url = `${PLATFORM_HOST_URL}/lol/summoner/v4/summoners/by-puuid/${encodeURIComponent(puuid)}`;
       const resp: AxiosResponse<RiotSummonerDTO> = await request.get(url, {
         headers: this._riotHeaders,
       });
       const { accountId, profileIconId, revisionDate, id, summonerLevel } = resp.data;
 
-      return new RiotSummoner(
-        accountId,
-        profileIconId,
-        new Date(revisionDate),
-        id,
-        puuid,
-        summonerLevel
-      );
+      return new RiotSummoner(accountId, profileIconId, new Date(revisionDate), id, puuid, summonerLevel);
     } catch {
       throw new Error(`Could not find Riot summoner by puuid: ${puuid}`);
     }

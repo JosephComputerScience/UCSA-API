@@ -1,5 +1,5 @@
-import { MATCH_AGGREGATE_STRATEGIES } from '../constants/matchAggregateStrategies';
-import { MatchAggregateFactory } from '../factory/matchAggregate/matchAggregateFactory';
+import type { MATCH_AGGREGATE_STRATEGIES } from "../constants/matchAggregateStrategies";
+import type { MatchAggregateFactory } from "../factory/matchAggregate/matchAggregateFactory";
 
 /**
  * Gets the data in the database for the game type and aggregate the

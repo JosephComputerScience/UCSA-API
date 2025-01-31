@@ -1,13 +1,13 @@
-import {
-  FastifyRequest,
+import type {
   FastifyReply,
-  RequestGenericInterface,
-  RawServerDefault,
-  RawRequestDefaultExpression,
+  FastifyRequest,
   RawReplyDefaultExpression,
+  RawRequestDefaultExpression,
+  RawServerDefault,
+  RequestGenericInterface,
   RouteGenericInterface,
-} from 'fastify';
-import { ReplyGenericInterface } from 'fastify/types/reply';
+} from "fastify";
+import type { ReplyGenericInterface } from "fastify/types/reply";
 
 /**
  * Generic HTTP(S) Overrides
@@ -20,15 +20,12 @@ import { ReplyGenericInterface } from 'fastify/types/reply';
 export interface UCSARoute extends RouteGenericInterface {}
 
 /** UCSA Generic HTTP(S) Fastify Request type*/
-export type UCSARequest<
-  T extends RequestGenericInterface = RequestGenericInterface
-> = FastifyRequest<T>;
+export type UCSARequest<T extends RequestGenericInterface = RequestGenericInterface> = FastifyRequest<T>;
 
 /** UCSA Generic HTTP(S) Fastify Reply type */
-export type UCSAReply<T extends ReplyGenericInterface = ReplyGenericInterface> =
-  FastifyReply<
-    RawServerDefault,
-    RawRequestDefaultExpression,
-    RawReplyDefaultExpression,
-    T
-  >;
+export type UCSAReply<T extends ReplyGenericInterface = ReplyGenericInterface> = FastifyReply<
+  RawServerDefault,
+  RawRequestDefaultExpression,
+  RawReplyDefaultExpression,
+  T
+>;

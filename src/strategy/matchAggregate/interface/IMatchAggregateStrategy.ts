@@ -1,3 +1,3 @@
 export interface IMatchAggregateStrategy {
-  aggregateMatches: <T = any>(gameType: string) => T | Promise<T>;
+  aggregateMatches: <T>(gameType: string) => T | Promise<T>;
 }

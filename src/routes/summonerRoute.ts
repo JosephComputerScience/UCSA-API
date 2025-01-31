@@ -1,9 +1,9 @@
 // import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
-import { FastifyInstance, FastifyPluginOptions, HookHandlerDoneFunction } from 'fastify';
-// import { getIndex } from '../controllers/userController';
-import { UserController } from '../controllers/userController';
+import type { FastifyInstance, FastifyPluginOptions, HookHandlerDoneFunction } from "fastify";
 // import { summonerController } from '../config/container';
-import { test } from '../controllers/test';
+import { test } from "../controllers/test";
+// import { getIndex } from '../controllers/userController';
+import { UserController } from "../controllers/userController";
 
 // const userRoutes = (
 //   fastify: FastifyInstance,
@@ -21,14 +21,10 @@ import { test } from '../controllers/test';
  * @param {FastifyPluginOptions} _
  * @param {HookHandlerDoneFunction} done fastify handler to signal that this is the end of the plugin
  */
-const summonerRouter = (
-  instance: FastifyInstance,
-  _: FastifyPluginOptions,
-  done: HookHandlerDoneFunction
-) => {
+const summonerRouter = (instance: FastifyInstance, _: FastifyPluginOptions, done: HookHandlerDoneFunction) => {
   // instance.get('/:summonerName/:tagLine', summonerController.getSummonerByNameAndTag);
   // instance.get('/:puuid', summonerController.getSummonerByPuuid)
-  instance.get('/:puuid', test);
+  instance.get("/:puuid", test);
   done();
 };
 

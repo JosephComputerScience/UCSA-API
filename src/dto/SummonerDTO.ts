@@ -15,7 +15,7 @@ export class SummonerDTO {
     summonerId: string,
     summonerLevel: number,
     profileIconId: number,
-    updatedAt: Date
+    updatedAt: Date,
   ) {
     this.puuid = puuid;
     this.summonerName = summonerName;

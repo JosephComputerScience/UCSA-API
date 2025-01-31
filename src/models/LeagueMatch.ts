@@ -38,7 +38,7 @@ export class LeagueMatch {
     puuid: string,
     quadraKills: number,
     tripleKills: number,
-    trueDamage: number
+    trueDamage: number,
   ) {
     this.assists = assists;
     this.bountyLevel = bountyLevel;

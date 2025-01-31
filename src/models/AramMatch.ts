@@ -1,3 +1,3 @@
-import { LeagueMatch } from './LeagueMatch';
+import { LeagueMatch } from "./LeagueMatch";
 
 export class AramMatch extends LeagueMatch {}
