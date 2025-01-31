@@ -1,3 +1,4 @@
+<<<<<<<< HEAD:src/services/legacy.matchService.ts
 import { RIOT_QUEUE_IDS } from '../constants';
 import { RIOT_QUEUES } from '../constants/riotConstants/riotQueues';
 import { RiotAccount } from '../models/RiotAccount';
@@ -17,11 +18,30 @@ import { RiotService } from './riotService';
  **/
 export class LeagueOfLegendService {
   riotService: RiotService;
+========
+import { MATCH_STRATEGIES } from '../constants/matchStrategies';
+import { MatchStrategyFactory } from '../factory/match/matchStrategyFactory';
 
-  constructor(riotService: RiotService) {
-    this.riotService = riotService;
+/**
+ * Updates the users latest match history from the respective
+ * game api to the database.
+ *
+ * Retrieves the users match history in the database.
+ *
+ * Uses the strategy pattern to encapsulate behavior to be able
+ * to pull matches from the database or update the database from
+ * each games respective third party api.
+ *
+ */
+export class MatchService {
+  private _matchStrategyFactory: MatchStrategyFactory;
+>>>>>>>> master:src/services/matchService.ts
+
+  constructor(matchStrategyFactory: MatchStrategyFactory) {
+    this._matchStrategyFactory = matchStrategyFactory;
   }
 
+<<<<<<<< HEAD:src/services/legacy.matchService.ts
   getMatchesByGameByNameAndTag = async (
     summonerName: string,
     tagLine: string,
@@ -52,5 +72,15 @@ export class LeagueOfLegendService {
     const { queueId: matchType } = RIOT_QUEUES[queueId];
     const matchIds = await this.riotService.getMatchIdsByPuuid(riotAccount.puuid, matchType, count);
     return this.riotService.getMatchesByMatchIds(matchIds);
+========
+  getMatches = (id: string, gameType: keyof typeof MATCH_STRATEGIES) => {
+    const strategy = this._matchStrategyFactory.getMatchStrategy(gameType);
+    return strategy.getMatchesByUserId(id);
+  };
+
+  updateMatches = (id: string, gameType: keyof typeof MATCH_STRATEGIES) => {
+    const strategy = this._matchStrategyFactory.getMatchStrategy(gameType);
+    strategy.updateMatchesByUserId(id);
+>>>>>>>> master:src/services/matchService.ts
   };
 }
