@@ -1,4 +1,4 @@
-import type { MATCH_AGGREGATE_STRATEGIES } from "../constants/matchAggregateStrategies";
+import type { MATCH_AGGREGATE_STRATEGIES } from "../constants/matchAggregateStrategy";
 import type { MatchAggregateFactory } from "../factory/matchAggregate/matchAggregateFactory";
 
 /**
