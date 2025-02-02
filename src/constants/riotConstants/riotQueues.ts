@@ -1,5 +1,4 @@
-import type { RiotQueue } from "../../types";
-
+import type { RiotQueue } from "../../types/riot";
 /**
  * Riot queues are used to filter out matches from the Riot API.
  *
@@ -36,4 +35,13 @@ export const RIOT_QUEUES: RiotQueue = {
     description: "5v5 Ranked Solo games",
     notes: null,
   },
-};
+} as const;
+
+/** Riot queue ids */
+export const RIOT_QUEUE_IDS = {
+  ARAM: "ARAM",
+  NORMAL_BLIND: "NORMAL_BLIND",
+  NORMAL_DRAFT: "NORMAL_DRAFT",
+  RANKED_FLEX: "RANKED_FLEX",
+  RANKED_SOLO: "RANKED_SOLO",
+} as const;

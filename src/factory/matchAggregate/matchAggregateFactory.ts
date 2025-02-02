@@ -1,4 +1,4 @@
-import { MATCH_AGGREGATE_STRATEGIES } from "../../constants/matchAggregateStrategies";
+import { MATCH_AGGREGATE_STRATEGIES } from "../../constants/matchAggregateStrategy";
 import type { IMatchAggregateStrategy } from "../../strategy/matchAggregate/interface/IMatchAggregateStrategy";
 
 /**
