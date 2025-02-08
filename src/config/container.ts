@@ -1,9 +1,8 @@
 import { SummonerController } from "../controllers/summonerController";
 import { SummonerDAO } from "../dao/SummonerDAO";
 import { SummonerRepository } from "../repository/SummonerRepository";
-import { LeagueOfLegendService } from "../services/legacy.matchService";
+import { LeagueOfLegendService } from "../services/leagueOfLegendService";
 import { RiotService } from "../services/riotService";
-import { SummonerService } from "../services/summonerService";
 import { db } from "../utils/db";
 
 const knex = db();
@@ -15,10 +14,8 @@ const summonerRepository = new SummonerRepository(summonerDAO);
 
 // Service initializations
 const riotService = new RiotService();
-const summonerService = new SummonerService(summonerRepository, riotService);
-const leagueOfLegendService = new LeagueOfLegendService(riotService);
+const leagueOfLegendService = new LeagueOfLegendService(riotService, summonerRepository);
 
 // Controller initializations
-const summonerController = new SummonerController(summonerService);
 
-export { riotService, summonerService, summonerController };
+export { riotService, leagueOfLegendService };

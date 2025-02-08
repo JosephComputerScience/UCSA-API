@@ -1,12 +1,10 @@
 export interface SummonerTRecord {
   puuid: string;
   summonerName: string;
+  tagLine: string;
   accountId: string;
   summonerId: string;
-  summonerLevel: number;
-  profileIconId: number;
-  tagLine: string;
-  revisionDate: Date;
+  metadata: string;
   updatedAt: Date;
   lastManualUpdatedAt: Date;
 }
