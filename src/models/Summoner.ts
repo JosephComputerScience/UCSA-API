@@ -11,10 +11,10 @@ export class Summoner {
 
   constructor(
     puuid: string,
-    accountId: string,
-    summonerId: string,
     summonerName: string,
     tagLine: string,
+    accountId: string,
+    summonerId: string,
     summonerLevel: number,
     profileIconId: number,
     updatedAt: Date,

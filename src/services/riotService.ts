@@ -1,5 +1,5 @@
 import type { AxiosResponse } from "axios";
-import { RIOT_REGIONAL_HOST_URL, RIOT_PLATFORM_HOST_URL } from "../constants";
+import { RIOT_PLATFORM_HOST_URL, RIOT_REGIONAL_HOST_URL } from "../constants";
 import type { RiotAccountDTO } from "../dto/RiotAccountDTO";
 import type { RiotMatchDTO } from "../dto/RiotMatchDTO";
 import type { RiotSummonerDTO } from "../dto/RiotSummonerDTO";
