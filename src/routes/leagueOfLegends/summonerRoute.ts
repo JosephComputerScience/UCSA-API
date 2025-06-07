@@ -1,10 +1,10 @@
 // import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import type { FastifyInstance, FastifyPluginOptions, HookHandlerDoneFunction } from "fastify";
+import { leagueSummonerController } from "../../config/container";
 // import { summonerController } from '../config/container';
 import { test } from "../../controllers/test";
 // import { getIndex } from '../controllers/userController';
 import { UserController } from "../../controllers/userController";
-import { leagueSummonerController } from "../../config/container";
 
 // const userRoutes = (
 //   fastify: FastifyInstance,

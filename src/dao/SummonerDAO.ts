@@ -1,7 +1,7 @@
 import type { Knex } from "knex";
 import type { Summoner } from "../models/Summoner";
-import type { ISummonerDAO } from "./interfaces/ISummonerDAO";
 import type { SummonerEntity } from "../models/entity/SummonerEntity";
+import type { ISummonerDAO } from "./interfaces/ISummonerDAO";
 
 export class SummonerDAO implements ISummonerDAO {
   knex: Knex.QueryBuilder;

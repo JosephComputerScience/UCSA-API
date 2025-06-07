@@ -4,8 +4,8 @@ import type { RiotAccount } from "../models/RiotAccount";
 import { Summoner } from "../models/Summoner";
 import type { ISummonerRepository } from "../repository/interfaces/ISummonerRepository";
 import { hasTimeElapsed } from "../utils/hasTimeElapsed";
-import type { ILeagueOfLegendService } from "./interfaces/ILeagueOfLegendService";
 import type { ILeagueMatchService } from "./interfaces/ILeagueMatchService";
+import type { ILeagueOfLegendService } from "./interfaces/ILeagueOfLegendService";
 import type { RiotService } from "./riotService";
 
 /**
