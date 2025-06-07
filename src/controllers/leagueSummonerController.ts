@@ -1,12 +1,12 @@
 // deprecate summoner go with league
 import type { FastifyReply, FastifyRequest } from "fastify";
+import { leagueOfLegendService } from "../config/container";
 import type { SummonerDTO } from "../dto/SummonerDTO";
+import type { ILeagueOfLegendService } from "../services/interfaces/ILeagueOfLegendService";
 // import type { ISummonerService } from "../services/interfaces/ILeagueOfLegendService";
 import type { UCSAReply, UCSARequest } from "../types";
-import type { GetSummonerType, ReplySummonerType } from "./types/leagueSummonerControllerTypes";
-import type { ILeagueOfLegendService } from "../services/interfaces/ILeagueOfLegendService";
 import type { ILeagueSummonerController } from "./interfaces/ILeagueSummonerController";
-import { leagueOfLegendService } from "../config/container";
+import type { GetSummonerType, ReplySummonerType } from "./types/leagueSummonerControllerTypes";
 
 export class LeagueSummonerController implements ILeagueSummonerController {
   private _leagueOfLegendService: ILeagueOfLegendService;
