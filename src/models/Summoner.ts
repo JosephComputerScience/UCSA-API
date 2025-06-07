@@ -6,6 +6,7 @@ export class Summoner {
   summonerId: string;
   summonerLevel: number;
   profileIconId: number;
+  matches = [];
   updatedAt: Date;
   lastManualUpdatedAt: Date;
 
