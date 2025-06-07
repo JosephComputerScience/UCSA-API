@@ -26,23 +26,23 @@ export class RiotService implements IRiotAccountService, IRiotLeagueMatchService
       const resp: AxiosResponse<RiotAccountDTO> = await request.get(url, {
         headers: this._riotHeaders,
       });
-      const { gameName, tagLine } = resp.data;
-      return { gameName, puuid, tagLine };
+      const { gameName: summonerName, tagLine } = resp.data;
+      return { summonerName, puuid, tagLine };
     } catch {
       throw new Error(`Could not find Riot account with puuid: ${puuid}`);
     }
   };
 
-  getAccountByNameTagLine = async (gameName: string, tagLine: string): Promise<RiotAccount> => {
+  getAccountBySummonerNameTagLine = async (summonerName: string, tagLine: string): Promise<RiotAccount> => {
     try {
-      const url = `${RIOT_REGIONAL_HOST_URL}/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`;
+      const url = `${RIOT_REGIONAL_HOST_URL}/riot/account/v1/accounts/by-riot-id/${summonerName}/${tagLine}`;
       const resp: AxiosResponse<RiotAccountDTO> = await request.get(url, {
         headers: this._riotHeaders,
       });
       const { puuid } = resp.data;
-      return { gameName, puuid, tagLine };
+      return { summonerName, puuid, tagLine };
     } catch {
-      throw new Error(`Could not find Riot account with summoner name: ${gameName} and tag line: ${tagLine}`);
+      throw new Error(`Could not find Riot account with summoner name: ${summonerName} and tag line: ${tagLine}`);
     }
   };
 

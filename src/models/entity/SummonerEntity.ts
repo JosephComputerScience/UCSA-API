@@ -1,4 +1,4 @@
-export interface SummonerTRecord {
+export type SummonerEntity = {
   puuid: string;
   summonerName: string;
   tagLine: string;
@@ -7,4 +7,4 @@ export interface SummonerTRecord {
   metadata: string;
   updatedAt: Date;
   lastManualUpdatedAt: Date;
-}
+};

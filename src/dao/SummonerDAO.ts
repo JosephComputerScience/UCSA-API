@@ -1,18 +1,18 @@
 import type { Knex } from "knex";
 import type { Summoner } from "../models/Summoner";
 import type { ISummonerDAO } from "./interfaces/ISummonerDAO";
-import type { SummonerTRecord } from "./interfaces/summonerRecord";
+import type { SummonerEntity } from "../models/entity/SummonerEntity";
 
 export class SummonerDAO implements ISummonerDAO {
-  knex: Knex;
+  knex: Knex.QueryBuilder;
 
   constructor(knex: Knex) {
-    this.knex = knex;
+    this.knex = knex("summoner");
   }
 
-  findByPuuid = async (puuid: string): Promise<SummonerTRecord | null> => {
+  findByPuuid = async (puuid: string): Promise<SummonerEntity | null> => {
     try {
-      const record = await this.knex<SummonerTRecord>("summoner").select("*").where({ puuid }).first();
+      const record = await this.knex.select<SummonerEntity>("*").where({ puuid }).first();
 
       if (!record) {
         return null;
@@ -24,9 +24,9 @@ export class SummonerDAO implements ISummonerDAO {
     }
   };
 
-  findByNameAndTag = async (summonerName: string, tagLine: string): Promise<SummonerTRecord | null> => {
+  findByNameAndTag = async (summonerName: string, tagLine: string): Promise<SummonerEntity | null> => {
     try {
-      const record = await this.knex<SummonerTRecord>("summoner").select("*").where({ summonerName, tagLine }).first();
+      const record = await this.knex.select<SummonerEntity>("*").where({ summonerName, tagLine }).first();
 
       if (!record) {
         return null;
@@ -43,8 +43,8 @@ export class SummonerDAO implements ISummonerDAO {
       const { puuid, summonerName, summonerLevel, profileIconId, updatedAt, tagLine } = summoner;
       const metadata = JSON.stringify({ summonerLevel, profileIconId });
       const lastManualUpdatedAt = new Date();
-      await this.knex<SummonerTRecord>("summoner")
-        .insert({
+      await this.knex
+        .insert<SummonerEntity>({
           puuid,
           summonerName,
           tagLine,
@@ -63,7 +63,7 @@ export class SummonerDAO implements ISummonerDAO {
 
   delete = async (summoner: Summoner) => {
     try {
-      return await this.knex<SummonerTRecord>("summoner").where({ puuid: summoner.puuid }).del();
+      return await this.knex.select<SummonerEntity>("*").where({ puuid: summoner.puuid }).del();
     } catch (e) {
       console.log(e);
       throw e;

@@ -1,0 +1,25 @@
+export type LeagueMatch = {
+  accountId: string;
+  assists: number;
+  bountyLevel: number;
+  championId: number;
+  crowdControlScore: number;
+  damageDealtToBuildings: number;
+  deaths: number;
+  doubleKills: number;
+  firstBlood: boolean;
+  gameResult: string;
+  gameType: string;
+  goldEarned: number;
+  kills: number;
+  magicalDamage: number;
+  matchId: string;
+  pentaKills: number;
+  physicalDamage: number;
+  puuid: string;
+  quadraKills: number;
+  subGameType: string;
+  tripleKills: number;
+  trueDamage: number;
+  win: string;
+};

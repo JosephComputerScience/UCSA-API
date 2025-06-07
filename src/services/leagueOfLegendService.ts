@@ -5,7 +5,9 @@ import { Summoner } from "../models/Summoner";
 import type { ISummonerRepository } from "../repository/interfaces/ISummonerRepository";
 import { hasTimeElapsed } from "../utils/hasTimeElapsed";
 import type { ILeagueOfLegendService } from "./interfaces/ILeagueOfLegendService";
+import type { ILeagueMatchService } from "./interfaces/ILeagueMatchService";
 import type { RiotService } from "./riotService";
+
 /**
  * League of legend service keeps the summoner user details up to date
  * and return aggregate stats based on user and queueId, game match type.
@@ -13,13 +15,18 @@ import type { RiotService } from "./riotService";
  * Service also updates or retrieves the aggregated stats based on the user
  * and queueId, game match type.
  * */
+// TODO: Needs to implement an aggregate service eventually
 export class LeagueOfLegendService implements ILeagueOfLegendService {
   private _riotService: RiotService;
   private _summonerRepository: ISummonerRepository;
+  private _leagueMatchService: ILeagueMatchService;
 
-  constructor(riotService: RiotService, summonerRepository: ISummonerRepository) {
+  // change leagueMatchService to leagueMatchRepository
+  // if possible we should have services hit repostiories
+  constructor(riotService: RiotService, summonerRepository: ISummonerRepository, leagueMatchService: ILeagueMatchService) {
     this._riotService = riotService;
     this._summonerRepository = summonerRepository;
+    this._leagueMatchService = leagueMatchService;
   }
 
   /**
@@ -29,7 +36,7 @@ export class LeagueOfLegendService implements ILeagueOfLegendService {
    * @param tagLine - Additional account identifier, after the summoner name ususally starts with #
    * @returns {Summoner}
    */
-  getSummonerByNameAndTagline = async (summonerName: string, tagLine: string): Promise<Summoner> => {
+  async getSummonerByNameAndTagline(summonerName: string, tagLine: string): Promise<Summoner> {
     // TODO: retrieve the latest user aggregate numbers.
     try {
       const dbSummoner = await this._summonerRepository.findByNameAndTag(summonerName, tagLine);
@@ -40,7 +47,7 @@ export class LeagueOfLegendService implements ILeagueOfLegendService {
         return dbSummoner;
       }
 
-      const riotAccount = await this._riotService.getAccountByNameTagLine(summonerName, tagLine);
+      const riotAccount = await this._riotService.getAccountBySummonerNameTagLine(summonerName, tagLine);
 
       if (!riotAccount) throw new Error(`No user could be found with Summoner name: ${summonerName} and tag line: ${tagLine}`);
 
@@ -67,7 +74,7 @@ export class LeagueOfLegendService implements ILeagueOfLegendService {
     } catch {
       throw new Error(`No user could be found with Summoner name: ${summonerName} and tag line: ${tagLine}`);
     }
-  };
+  }
 
   /**
    * Deletes the summoners matches in the database and updates the summoners latest matches.
@@ -80,13 +87,13 @@ export class LeagueOfLegendService implements ILeagueOfLegendService {
    * @param count - Dumber of matches to update, default is 20
    * @returns
    */
-  updateMatchesBySummonerNameAndTagAndQueueId = async (
+  async updateMatchesBySummonerNameAndTagAndQueueId(
     summonerName: string,
     tagLine: string,
     queueId: keyof typeof RIOT_QUEUE_IDS,
     count = 20,
-  ) => {
-    const riotAccount: RiotAccount = await this._riotService.getAccountByNameTagLine(summonerName, tagLine);
+  ) {
+    const riotAccount: RiotAccount = await this._riotService.getAccountBySummonerNameTagLine(summonerName, tagLine);
 
     const { queueId: matchType } = RIOT_QUEUES[queueId];
     const matchIds = await this._riotService.getMatchIdsByPuuid(riotAccount.puuid, matchType, count);
@@ -95,18 +102,18 @@ export class LeagueOfLegendService implements ILeagueOfLegendService {
     // 2. updates matches with this._riotService.getMatchesByMatchIds(matchIds);
     // 3. re aggregate that data.
     return this._riotService.getMatchesByMatchIds(matchIds);
-  };
+  }
 
   /**
    * Retrieves the summoners pre-aggregate the data in the database.
    */
-  getChampionAggregateStats = () => {};
+  async getChampionAggregateStats() {}
 
   /**
    * Updates the matches in the database, deletes old aggregated stats and create new ones based on
    * updated matches.
    */
-  updateSummonerAggregateStats = () => {};
+  async updateSummonerAggregateStats() {}
 
   /**
    * Retrieves the summoner matches from the database.
@@ -117,12 +124,7 @@ export class LeagueOfLegendService implements ILeagueOfLegendService {
    * @param count
    * @returns
    */
-  getMatchesBySummonerNameAndTagAndQueueId = async (
-    summonerName: string,
-    tagLine: string,
-    queueId: keyof typeof RIOT_QUEUE_IDS,
-    count = 20,
-  ) => {
-    // todo: come back to this once match service is created
-  };
+  async getMatchesBySummonerNameAndTagAndQueueId(summonerName: string, tagLine: string, queueId: keyof typeof RIOT_QUEUE_IDS, count = 20) {
+    // todo: come back to this once match repository is created to pull from actual matches in db
+  }
 }
