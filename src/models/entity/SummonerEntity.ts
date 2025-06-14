@@ -4,7 +4,8 @@ export type SummonerEntity = {
   tagLine: string;
   accountId: string;
   summonerId: string;
-  metadata: string;
+  summonerLevel: number;
+  profileIconId: number;
+  revisionDate: Date;
   updatedAt: Date;
-  lastManualUpdatedAt: Date;
 };

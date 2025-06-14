@@ -2,7 +2,6 @@
 import type { FastifyInstance, FastifyPluginOptions, HookHandlerDoneFunction } from "fastify";
 import { leagueSummonerController } from "../../config/container";
 // import { summonerController } from '../config/container';
-import { test } from "../../controllers/test";
 // import { getIndex } from '../controllers/userController';
 import { UserController } from "../../controllers/userController";
 
@@ -33,9 +32,7 @@ const summonerRouter = async (instance: FastifyInstance, _: FastifyPluginOptions
   //   },
   //   { prefix: "/summoner" },
   // );
-
-  instance.get("/summoner", leagueSummonerController.getSummonerByNameAndTag);
-  instance.get("/summoner1", leagueSummonerController.test);
+  instance.get("/summoner", leagueSummonerController.getSummoner);
   // done();
 };
 
