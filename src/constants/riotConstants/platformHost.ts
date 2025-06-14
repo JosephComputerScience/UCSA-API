@@ -48,6 +48,6 @@ export const RIOT_PLATFORM = {
  * else default to https://na1.api.riotgames.com
  * */
 export const RIOT_PLATFORM_HOST_URL =
-  (process.env.RIOT_PLATFORM ?? RIOT_PLATFORM.NA1) in RIOT_PLATFORM_HOST
+  (process.env.RIOT_PLATFORM ?? "") in RIOT_PLATFORM_HOST
     ? RIOT_PLATFORM_HOST[process.env.RIOT_PLATFORM_HOST as RIOT_PLATFORM_TYPE]
     : RIOT_PLATFORM_HOST.NA1;

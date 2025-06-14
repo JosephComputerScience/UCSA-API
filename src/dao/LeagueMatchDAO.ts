@@ -3,21 +3,21 @@ import type { LeagueMatchEntity } from "../models/entity/LeagueMatchEntity";
 import type { ILeagueMatchDAO } from "./interfaces/ILeagueMatchDAO";
 
 export class LeagueMatchDAO implements ILeagueMatchDAO {
-  knex: Knex.QueryBuilder;
+  knex: Knex;
 
   constructor(knex: Knex) {
-    this.knex = knex("league_match");
+    this.knex = knex;
   }
 
   async getMatchesByPuuid(puuid: string): Promise<LeagueMatchEntity[]> {
-    return await this.knex.select<LeagueMatchEntity[]>("*").where({ puuid });
+    return await this.knex("league_match").select<LeagueMatchEntity[]>("*").where({ puuid });
   }
 
   async batchInsert(batch: LeagueMatchEntity[]) {
-    await this.knex.insert<LeagueMatchEntity>(batch);
+    await this.knex("league_match").insert<LeagueMatchEntity>(batch);
   }
 
   async batchDeleteByPuuid(puuid: string) {
-    await this.knex.where({ puuid }).del();
+    await this.knex("league_match").where({ puuid }).del();
   }
 }

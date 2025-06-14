@@ -24,6 +24,6 @@ export const RIOT_REGIONAL = {
  * else default to https://americas.api.riotgames.com
  */
 export const RIOT_REGIONAL_HOST_URL =
-  (process.env.RIOT_REGIONAL ?? RIOT_REGIONAL.AMERICAS) in RIOT_REGIONAL_HOST
+  (process.env.RIOT_REGIONAL ?? "") in RIOT_REGIONAL_HOST
     ? RIOT_REGIONAL_HOST[process.env.RIOT_REGIONAL as RIOT_REGIONAL_TYPE]
     : RIOT_REGIONAL_HOST.AMERICAS;

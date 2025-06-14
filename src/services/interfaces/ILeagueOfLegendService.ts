@@ -4,6 +4,7 @@ import type { Summoner } from "../../models/Summoner";
 
 export interface ILeagueOfLegendService {
   getSummonerByNameAndTagline(summonerName: string, tagLine: string): Promise<Summoner | null>;
+  getSummonerByPuuid(puuid: string): Promise<Summoner | null>;
   updateMatchesBySummonerNameAndTagAndQueueId(
     summonerName: string,
     tagLine: string,

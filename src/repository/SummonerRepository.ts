@@ -11,21 +11,20 @@ export class SummonerRepository implements ISummonerRepository {
 
   findByNameAndTag = async (summonerName: string, tagLine: string) => {
     try {
-      const record = await this._summonerDAO.findByNameAndTag(summonerName, tagLine);
-      if (!record) return null;
-      const { puuid, accountId, summonerId, metadata: metadataJson, updatedAt, lastManualUpdatedAt } = record;
-      const metadata = JSON.parse(metadataJson);
+      const entity = await this._summonerDAO.findByNameAndTag(summonerName, tagLine);
+      if (!entity) return null;
+      const { accountId, profileIconId, puuid, revisionDate, summonerId, summonerLevel, updatedAt } = entity;
 
       const summoner = new Summoner(
         puuid,
-        accountId,
-        summonerId,
         summonerName,
         tagLine,
-        metadata.summonerLevel,
-        metadata.profileIconId,
+        accountId,
+        summonerId,
+        summonerLevel,
+        profileIconId,
+        revisionDate,
         updatedAt,
-        lastManualUpdatedAt,
       );
 
       return summoner;
@@ -36,21 +35,20 @@ export class SummonerRepository implements ISummonerRepository {
 
   findByPuuid = async (puuid: string) => {
     try {
-      const record = await this._summonerDAO.findByPuuid(puuid);
-      if (!record) return null;
-      const { accountId, summonerId, summonerName, tagLine, metadata: metadataJson, updatedAt, lastManualUpdatedAt } = record;
-      const metadata = JSON.parse(metadataJson);
+      const entity = await this._summonerDAO.findByPuuid(puuid);
+      if (!entity) return null;
+      const { accountId, profileIconId, revisionDate, summonerId, summonerLevel, summonerName, tagLine, updatedAt } = entity;
 
       const summoner = new Summoner(
         puuid,
-        accountId,
-        summonerId,
         summonerName,
         tagLine,
-        metadata.summonerLevel,
-        metadata.profileIconId,
+        accountId,
+        summonerId,
+        summonerLevel,
+        profileIconId,
+        revisionDate,
         updatedAt,
-        lastManualUpdatedAt,
       );
 
       return summoner;
@@ -58,6 +56,7 @@ export class SummonerRepository implements ISummonerRepository {
       return null;
     }
   };
+
   save = async (summoner: Summoner) => {
     await this._summonerDAO.upsert(summoner);
   };

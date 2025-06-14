@@ -43,7 +43,7 @@ export class LeagueOfLegendService implements ILeagueOfLegendService {
 
       const threeMins = 180000; // 3 mins in ms
       // Return summoner if found and data is not outdated by 3 mins
-      if (dbSummoner && !hasTimeElapsed(dbSummoner.lastManualUpdatedAt.valueOf(), threeMins)) {
+      if (dbSummoner && !hasTimeElapsed(dbSummoner.updatedAt.valueOf(), threeMins)) {
         return dbSummoner;
       }
 
@@ -64,15 +64,61 @@ export class LeagueOfLegendService implements ILeagueOfLegendService {
         summonerLevel,
         profileIconId,
         revisionDate,
-        revisionDate,
+        new Date(),
       );
 
       // update db with summoner
-      this._summonerRepository.save(summoner);
+      await this._summonerRepository.save(summoner);
 
       return summoner;
     } catch {
       throw new Error(`No user could be found with Summoner name: ${summonerName} and tag line: ${tagLine}`);
+    }
+  }
+
+  /**
+   * Retrieves the Summoner from the database or from the Riot API if it doesn't exist.
+   * Updates the database with the Summoner if it doesn't exist or is stale, stale after 3 minutes.
+   * @param puuid - Encrypted id used by Riot service
+   * @returns {Summoner}
+   */
+  async getSummonerByPuuid(puuid: string): Promise<Summoner> {
+    // TODO: retrieve the latest user aggregate numbers.
+    try {
+      const dbSummoner = await this._summonerRepository.findByPuuid(puuid);
+
+      const threeMins = 180000; // 3 mins in ms
+      // Return summoner if found and data is not outdated by 3 mins
+      if (dbSummoner && !hasTimeElapsed(dbSummoner.updatedAt.valueOf(), threeMins)) {
+        return dbSummoner;
+      }
+
+      const riotAccount = await this._riotService.getAccountByPuuid(puuid);
+
+      if (!riotAccount) throw new Error(`No user could be found with puuid: ${puuid}`);
+
+      const riotSummoner = await this._riotService.getSummonerByPuuid(puuid);
+      const { summonerName, tagLine } = riotAccount;
+      const { accountId, summonerId, summonerLevel, profileIconId, revisionDate } = riotSummoner;
+
+      const summoner = new Summoner(
+        puuid,
+        summonerName,
+        tagLine,
+        accountId,
+        summonerId,
+        summonerLevel,
+        profileIconId,
+        revisionDate,
+        new Date(),
+      );
+
+      // update db with summoner
+      await this._summonerRepository.save(summoner);
+
+      return summoner;
+    } catch {
+      throw new Error(`No user could be found with puuid: ${puuid}`);
     }
   }
 

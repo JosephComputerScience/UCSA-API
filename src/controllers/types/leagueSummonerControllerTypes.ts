@@ -4,6 +4,7 @@ import type { SummonerDTO } from "../../dto/SummonerDTO";
 export type GetSummonerParams = {
   summonerName: string;
   tagLine: string;
+  puuid: string;
 };
 
 export interface GetSummonerType extends RouteGenericInterface {
