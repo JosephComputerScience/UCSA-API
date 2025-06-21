@@ -1,12 +1,12 @@
 import type { AxiosResponse } from "axios";
-import { RIOT_PLATFORM_HOST_URL, RIOT_REGIONAL_HOST_URL } from "../../constants";
-import type { RiotAccountDTO } from "../../dto/RiotAccountDTO";
-import type { RiotMatchDTO } from "../../dto/RiotMatchDTO";
-import type { RiotSummonerDTO } from "../../dto/RiotSummonerDTO";
-import type { RiotAccount } from "../../models/RiotAccount";
-import { RiotSummoner } from "../../models/RiotSummoner";
-import { request } from "../../utils/request";
-import { getRiotHeaders } from "../../utils/riot/getRiotHeaders";
+import { RIOT_PLATFORM_HOST_URL, RIOT_REGIONAL_HOST_URL } from "@/constants";
+import type { RiotAccountDTO } from "@/dto/RiotAccountDTO";
+import type { RiotMatchDTO } from "@/dto/RiotMatchDTO";
+import type { RiotSummonerDTO } from "@/dto/RiotSummonerDTO";
+import type { RiotAccount } from "@/models/RiotAccount";
+import { RiotSummoner } from "@/models/RiotSummoner";
+import { request } from "@/utils/request";
+import { getRiotHeaders } from "@/utils/riot/getRiotHeaders";
 import type { IRiotRepository } from "./interfaces/IRiotRepository";
 
 export class RiotRepository implements IRiotRepository {

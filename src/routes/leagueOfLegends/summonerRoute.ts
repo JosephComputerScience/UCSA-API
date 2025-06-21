@@ -1,9 +1,6 @@
 // import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import type { FastifyInstance, FastifyPluginOptions, HookHandlerDoneFunction } from "fastify";
-import { leagueSummonerController } from "../../config/container";
-// import { summonerController } from '../config/container';
-// import { getIndex } from '../controllers/userController';
-import { UserController } from "../../controllers/userController";
+import { leagueSummonerController } from "@/config/container";
 
 // const userRoutes = (
 //   fastify: FastifyInstance,
@@ -22,18 +19,7 @@ import { UserController } from "../../controllers/userController";
  * @param {HookHandlerDoneFunction} done fastify handler to signal that this is the end of the plugin
  */
 const summonerRouter = async (instance: FastifyInstance, _: FastifyPluginOptions, done: HookHandlerDoneFunction) => {
-  // instance.get('/:summonerName/:tagLine', summonerController.getSummonerByNameAndTag);
-  // instance.get('/:puuid', summonerController.getSummonerByPuuid)
-  // instance.get("/:puuid", test);
-
-  // instance.register(
-  //   (instance) => {
-  //     instance.get("/", leagueSummonerController.getSummonerByNameAndTag);
-  //   },
-  //   { prefix: "/summoner" },
-  // );
   instance.get("/summoner", leagueSummonerController.getSummoner);
-  // done();
 };
 
 export default summonerRouter;

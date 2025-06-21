@@ -1,10 +1,10 @@
-import type { RIOT_QUEUE_IDS } from "../constants";
-import { RIOT_QUEUES } from "../constants/riotConstants/riotQueues";
-import type { RiotAccount } from "../models/RiotAccount";
-import { Summoner } from "../models/Summoner";
-import type { ISummonerRepository } from "../repository/interfaces/ISummonerRepository";
-import type { IRiotRepository } from "../repository/riot/interfaces/IRiotRepository";
-import { hasTimeElapsed } from "../utils/hasTimeElapsed";
+import type { RIOT_QUEUE_IDS } from "@/constants";
+import { RIOT_QUEUES } from "@/constants/riotConstants/riotQueues";
+import type { RiotAccount } from "@/models/RiotAccount";
+import { Summoner } from "@/models/Summoner";
+import type { ISummonerRepository } from "@/repository/interfaces/ISummonerRepository";
+import type { IRiotRepository } from "@/repository/riot/interfaces/IRiotRepository";
+import { hasTimeElapsed } from "@/utils/hasTimeElapsed";
 import type { ILeagueMatchService } from "./interfaces/ILeagueMatchService";
 import type { ILeagueOfLegendService } from "./interfaces/ILeagueOfLegendService";
 

@@ -1,4 +1,4 @@
-import type { RIOT_PLATFORM, RIOT_PLATFORM_HOST, RIOT_QUEUE_IDS, RIOT_REGIONAL, RIOT_REGIONAL_HOST } from "../../constants/riotConstants";
+import type { RIOT_PLATFORM, RIOT_PLATFORM_HOST, RIOT_QUEUE_IDS, RIOT_REGIONAL, RIOT_REGIONAL_HOST } from "@/constants/riotConstants";
 
 export type RIOT_REGIONAL_HOST_TYPE = (typeof RIOT_REGIONAL_HOST)[keyof typeof RIOT_REGIONAL_HOST];
 /** Union of the riot queue game type values to be usable as param for string values */
