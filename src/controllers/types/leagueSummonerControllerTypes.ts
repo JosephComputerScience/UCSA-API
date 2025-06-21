@@ -1,5 +1,5 @@
-import type { RouteGenericInterface } from "fastify";
 import type { SummonerDTO } from "@/dto/SummonerDTO";
+import type { RouteGenericInterface } from "fastify";
 
 export type GetSummonerParams = {
   summonerName: string;

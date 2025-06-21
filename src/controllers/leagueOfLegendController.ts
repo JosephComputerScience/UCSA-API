@@ -1,7 +1,7 @@
-// deprecate summoner go with league
-import type { FastifyReply, FastifyRequest } from "fastify";
 import type { SummonerDTO } from "@/dto/SummonerDTO";
 import type { ILeagueOfLegendService } from "@/services/interfaces/ILeagueOfLegendService";
+// deprecate summoner go with league
+import type { FastifyReply, FastifyRequest } from "fastify";
 import type { ILeagueOfLegendController } from "./interfaces/ILeagueOfLegendController";
 import type { GetSummonerType } from "./types/leagueSummonerControllerTypes";
 
