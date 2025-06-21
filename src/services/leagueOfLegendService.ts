@@ -3,10 +3,10 @@ import { RIOT_QUEUES } from "../constants/riotConstants/riotQueues";
 import type { RiotAccount } from "../models/RiotAccount";
 import { Summoner } from "../models/Summoner";
 import type { ISummonerRepository } from "../repository/interfaces/ISummonerRepository";
+import type { IRiotRepository } from "../repository/riot/interfaces/IRiotRepository";
 import { hasTimeElapsed } from "../utils/hasTimeElapsed";
 import type { ILeagueMatchService } from "./interfaces/ILeagueMatchService";
 import type { ILeagueOfLegendService } from "./interfaces/ILeagueOfLegendService";
-import type { RiotService } from "./riotService";
 
 /**
  * League of legend service keeps the summoner user details up to date
@@ -17,14 +17,14 @@ import type { RiotService } from "./riotService";
  * */
 // TODO: Needs to implement an aggregate service eventually
 export class LeagueOfLegendService implements ILeagueOfLegendService {
-  private _riotService: RiotService;
+  private _riotRepository: IRiotRepository;
   private _summonerRepository: ISummonerRepository;
   private _leagueMatchService: ILeagueMatchService;
 
   // change leagueMatchService to leagueMatchRepository
   // if possible we should have services hit repostiories
-  constructor(riotService: RiotService, summonerRepository: ISummonerRepository, leagueMatchService: ILeagueMatchService) {
-    this._riotService = riotService;
+  constructor(riotRepository: IRiotRepository, summonerRepository: ISummonerRepository, leagueMatchService: ILeagueMatchService) {
+    this._riotRepository = riotRepository;
     this._summonerRepository = summonerRepository;
     this._leagueMatchService = leagueMatchService;
   }
@@ -47,11 +47,11 @@ export class LeagueOfLegendService implements ILeagueOfLegendService {
         return dbSummoner;
       }
 
-      const riotAccount = await this._riotService.getAccountBySummonerNameTagLine(summonerName, tagLine);
+      const riotAccount = await this._riotRepository.getAccountBySummonerNameTagLine(summonerName, tagLine);
 
       if (!riotAccount) throw new Error(`No user could be found with Summoner name: ${summonerName} and tag line: ${tagLine}`);
 
-      const riotSummoner = await this._riotService.getSummonerByPuuid(riotAccount.puuid);
+      const riotSummoner = await this._riotRepository.getSummonerByPuuid(riotAccount.puuid);
       const { puuid } = riotAccount;
       const { accountId, summonerId, summonerLevel, profileIconId, revisionDate } = riotSummoner;
 
@@ -93,11 +93,11 @@ export class LeagueOfLegendService implements ILeagueOfLegendService {
         return dbSummoner;
       }
 
-      const riotAccount = await this._riotService.getAccountByPuuid(puuid);
+      const riotAccount = await this._riotRepository.getAccountByPuuid(puuid);
 
       if (!riotAccount) throw new Error(`No user could be found with puuid: ${puuid}`);
 
-      const riotSummoner = await this._riotService.getSummonerByPuuid(puuid);
+      const riotSummoner = await this._riotRepository.getSummonerByPuuid(puuid);
       const { summonerName, tagLine } = riotAccount;
       const { accountId, summonerId, summonerLevel, profileIconId, revisionDate } = riotSummoner;
 
@@ -139,15 +139,15 @@ export class LeagueOfLegendService implements ILeagueOfLegendService {
     queueId: keyof typeof RIOT_QUEUE_IDS,
     count = 20,
   ) {
-    const riotAccount: RiotAccount = await this._riotService.getAccountBySummonerNameTagLine(summonerName, tagLine);
+    const riotAccount: RiotAccount = await this._riotRepository.getAccountBySummonerNameTagLine(summonerName, tagLine);
 
     const { queueId: matchType } = RIOT_QUEUES[queueId];
-    const matchIds = await this._riotService.getMatchIdsByPuuid(riotAccount.puuid, matchType, count);
+    const matchIds = await this._riotRepository.getMatchIdsByPuuid(riotAccount.puuid, matchType, count);
     // todo:
     // 1. delete all matches with match service
-    // 2. updates matches with this._riotService.getMatchesByMatchIds(matchIds);
+    // 2. updates matches with this._riotRepository.getMatchesByMatchIds(matchIds);
     // 3. re aggregate that data.
-    return this._riotService.getMatchesByMatchIds(matchIds);
+    return this._riotRepository.getMatchesByMatchIds(matchIds);
   }
 
   /**

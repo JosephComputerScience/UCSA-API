@@ -1,23 +1,15 @@
 import type { AxiosResponse } from "axios";
-import { RIOT_PLATFORM_HOST_URL, RIOT_REGIONAL_HOST_URL } from "../constants";
-import type { RiotAccountDTO } from "../dto/RiotAccountDTO";
-import type { RiotMatchDTO } from "../dto/RiotMatchDTO";
-import type { RiotSummonerDTO } from "../dto/RiotSummonerDTO";
-import type { RiotAccount } from "../models/RiotAccount";
-import { RiotSummoner } from "../models/RiotSummoner";
-import { request } from "../utils/request";
-import { getRiotHeaders } from "../utils/riot/getRiotHeaders";
-import type { IRiotAccountService } from "./interfaces/IRiotAccountService";
-import type { IRiotLeagueMatchService } from "./interfaces/IRiotLeagueMatchService";
-import type { IRiotSummonerService } from "./interfaces/IRiotSummonerService";
+import { RIOT_PLATFORM_HOST_URL, RIOT_REGIONAL_HOST_URL } from "../../constants";
+import type { RiotAccountDTO } from "../../dto/RiotAccountDTO";
+import type { RiotMatchDTO } from "../../dto/RiotMatchDTO";
+import type { RiotSummonerDTO } from "../../dto/RiotSummonerDTO";
+import type { RiotAccount } from "../../models/RiotAccount";
+import { RiotSummoner } from "../../models/RiotSummoner";
+import { request } from "../../utils/request";
+import { getRiotHeaders } from "../../utils/riot/getRiotHeaders";
+import type { IRiotRepository } from "./interfaces/IRiotRepository";
 
-/**
- * Riot Third Party API
- * IRiotAccountService - https://developer.riotgames.com/apis#account-v1
- * IRiotLeagueMatchService - https://developer.riotgames.com/apis#match-v5
- * IRiotSummonerService - https://developer.riotgames.com/apis#summoner-v4
- */
-export class RiotService implements IRiotAccountService, IRiotLeagueMatchService, IRiotSummonerService {
+export class RiotRepository implements IRiotRepository {
   private _riotHeaders = getRiotHeaders();
 
   getAccountByPuuid = async (puuid: string): Promise<RiotAccount> => {

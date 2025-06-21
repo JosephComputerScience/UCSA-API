@@ -7,7 +7,8 @@
     "editor.defaultFormatter": "biomejs.biome"
   },
   "editor.codeActionsOnSave": {
-    "quickfix.biome": "explicit"
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
   },
-  "biome.lspBin": "./biome-test/node_modules/@biomejs/biome/bin/biome"
+  "biome.lsp.bin": "./biome-test/node_modules/@biomejs/biome/bin/biome"
 }
