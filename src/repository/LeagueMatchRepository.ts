@@ -1,5 +1,5 @@
-import type { ILeagueMatchDAO } from "../dao/interfaces/ILeagueMatchDAO";
-import type { LeagueMatch } from "../models/riotMatches/LeagueMatch";
+import type { ILeagueMatchDAO } from "@/dao/interfaces/ILeagueMatchDAO";
+import type { LeagueMatch } from "@/models/riotMatches/LeagueMatch";
 import type { ILeagueMatchRepository } from "./interfaces/ILeagueMatchRepository";
 
 export class LeagueMatchRepository implements ILeagueMatchRepository {

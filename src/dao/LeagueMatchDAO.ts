@@ -1,5 +1,5 @@
+import type { LeagueMatchEntity } from "@/models/entity/LeagueMatchEntity";
 import type { Knex } from "knex";
-import type { LeagueMatchEntity } from "../models/entity/LeagueMatchEntity";
 import type { ILeagueMatchDAO } from "./interfaces/ILeagueMatchDAO";
 
 export class LeagueMatchDAO implements ILeagueMatchDAO {

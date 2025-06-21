@@ -1,4 +1,4 @@
-import { RIOT_API_KEY } from "../../constants";
+import { RIOT_API_KEY } from "@/constants";
 
 export const getRiotHeaders = (headers = {}) => ({
   ...headers,

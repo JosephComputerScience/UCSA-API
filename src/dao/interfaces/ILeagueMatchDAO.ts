@@ -1,4 +1,4 @@
-import type { LeagueMatchEntity } from "../../models/entity/LeagueMatchEntity";
+import type { LeagueMatchEntity } from "@/models/entity/LeagueMatchEntity";
 
 export interface ILeagueMatchDAO {
   getMatchesByPuuid(puuid: string): Promise<LeagueMatchEntity[]>;

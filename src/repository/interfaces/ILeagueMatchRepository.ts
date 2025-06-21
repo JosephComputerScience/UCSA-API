@@ -1,4 +1,4 @@
-import type { LeagueMatch } from "../../models/riotMatches/LeagueMatch";
+import type { LeagueMatch } from "@/models/riotMatches/LeagueMatch";
 
 export interface ILeagueMatchRepository {
   deleteAllMatchesByPuuid(puuid: string): Promise<void>;

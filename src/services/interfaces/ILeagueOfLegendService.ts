@@ -1,6 +1,6 @@
-import type { RIOT_QUEUE_IDS } from "../../constants";
-import type { RiotMatchDTO } from "../../dto/RiotMatchDTO";
-import type { Summoner } from "../../models/Summoner";
+import type { RIOT_QUEUE_IDS } from "@/constants";
+import type { RiotMatchDTO } from "@/dto/RiotMatchDTO";
+import type { Summoner } from "@/models/Summoner";
 
 export interface ILeagueOfLegendService {
   getSummonerByNameAndTagline(summonerName: string, tagLine: string): Promise<Summoner | null>;

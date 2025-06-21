@@ -1,4 +1,4 @@
-import type { RiotMatchDTO } from "../../dto/RiotMatchDTO";
+import type { RiotMatchDTO } from "@/dto/RiotMatchDTO";
 
 /**
  * Riot third party api connecting to the league match endpoint - https://developer.riotgames.com/apis#match-v5
