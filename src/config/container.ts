@@ -1,9 +1,9 @@
 import { LeagueOfLegendController } from "../controllers/leagueOfLegendController";
 import { SummonerDAO } from "../dao/SummonerDAO";
 import { SummonerRepository } from "../repository/SummonerRepository";
+import { RiotRepository } from "../repository/riot/riotRepository";
 import { LeagueMatchService } from "../services/leagueMatchService";
 import { LeagueOfLegendService } from "../services/leagueOfLegendService";
-import { RiotService } from "../services/riotService";
 import { autoBind } from "../utils/autoBind";
 import { db } from "../utils/db";
 
@@ -13,12 +13,12 @@ const summonerDAO = new SummonerDAO(knex);
 
 // Repository initializations
 const summonerRepository = new SummonerRepository(summonerDAO);
+const riotRepository = new RiotRepository();
 
 // Service initializations
-const riotService = new RiotService();
 // todo remove this
 const leagueMatchService = new LeagueMatchService();
-const leagueOfLegendService = new LeagueOfLegendService(riotService, summonerRepository, leagueMatchService);
+const leagueOfLegendService = new LeagueOfLegendService(riotRepository, summonerRepository, leagueMatchService);
 
 // Controller initializations
 const leagueSummonerController = new LeagueOfLegendController(leagueOfLegendService);
@@ -26,4 +26,4 @@ const leagueSummonerController = new LeagueOfLegendController(leagueOfLegendServ
 // bind callbacks
 autoBind(leagueSummonerController);
 
-export { riotService, leagueMatchService, leagueOfLegendService, leagueSummonerController };
+export { leagueMatchService, leagueOfLegendService, leagueSummonerController };
