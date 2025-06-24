@@ -1,3 +1,6 @@
+import type { LeagueMatch } from "@/models/riotMatches/LeagueMatch";
+
 export interface ILeagueMatchService {
-  getMatchesByUserId<T>(id: string, count: number): T[];
+  getMatchesByPuuid(puuid: string): Promise<LeagueMatch[] | null>;
+  deleteMatchesByPuuid(puuid: string): void;
 }
