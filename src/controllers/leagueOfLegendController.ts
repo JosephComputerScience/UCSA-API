@@ -1,47 +1,21 @@
-import type { SummonerDTO } from "@/dto/SummonerDTO";
-import type { ILeagueOfLegendService } from "@/services/interfaces/ILeagueOfLegendService";
-// deprecate summoner go with league
+import type { ILolUserMatch } from "@/orchestrator/interfaces/ILolUserMatch";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import type { ILeagueOfLegendController } from "./interfaces/ILeagueOfLegendController";
 import type { GetSummonerType } from "./types/leagueSummonerControllerTypes";
 
 export class LeagueOfLegendController implements ILeagueOfLegendController {
-  private _leagueOfLegendService: ILeagueOfLegendService;
+  private _lolUserMatchOrchestrator: ILolUserMatch;
 
-  constructor(leagueOfLegendService: ILeagueOfLegendService) {
-    this._leagueOfLegendService = leagueOfLegendService;
+  constructor(lolUserMatchOrchestrator: ILolUserMatch) {
+    this._lolUserMatchOrchestrator = lolUserMatchOrchestrator;
   }
 
   async getSummoner(req: FastifyRequest<GetSummonerType>, reply: FastifyReply) {
     const { puuid, summonerName, tagLine } = req.query;
     const summoner = puuid
-      ? await this._leagueOfLegendService.getSummonerByPuuid(puuid)
-      : await this._leagueOfLegendService.getSummonerByNameAndTagline(summonerName, tagLine);
+      ? await this._lolUserMatchOrchestrator.getSummonerByPuuid(puuid)
+      : await this._lolUserMatchOrchestrator.getSummonerByNameAndTagLine(summonerName, tagLine);
 
-    if (!summoner) return undefined;
-
-    const {
-      puuid: summonerPuuid,
-      accountId,
-      summonerId,
-      summonerLevel,
-      summonerName: name,
-      profileIconId,
-      tagLine: tag,
-      updatedAt,
-    } = summoner;
-
-    const summonerDTO: SummonerDTO = {
-      puuid: summonerPuuid,
-      summonerName: name,
-      tagLine: tag,
-      accountId,
-      summonerId,
-      summonerLevel,
-      profileIconId,
-      updatedAt,
-    };
-
-    return reply.send({ summoner: summonerDTO });
+    return reply.send({ summoner });
   }
 }

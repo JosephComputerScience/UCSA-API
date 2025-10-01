@@ -1,3 +1,3 @@
-import type { LeagueMatch } from "./LeagueMatch";
+import { LeagueMatch } from "./LeagueMatch";
 
-export type SummonerRiftMatch = {} & LeagueMatch;
+export class SummonerRiftMatch extends LeagueMatch {}

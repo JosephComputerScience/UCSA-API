@@ -1,25 +1,63 @@
-export type LeagueMatch = {
-  accountId: string;
-  assists: number;
-  bountyLevel: number;
-  championId: number;
-  crowdControlScore: number;
-  damageDealtToBuildings: number;
-  deaths: number;
-  doubleKills: number;
-  firstBlood: boolean;
-  gameResult: string;
-  gameType: string;
-  goldEarned: number;
-  kills: number;
-  magicalDamage: number;
-  matchId: string;
-  pentaKills: number;
-  physicalDamage: number;
-  puuid: string;
-  quadraKills: number;
-  subGameType: string;
-  tripleKills: number;
-  trueDamage: number;
-  win: string;
-};
+import { LeagueMatchEntity } from "../entity/LeagueMatchEntity";
+import type { toEntity } from "../interfaces/toEntity";
+
+export class LeagueMatch implements toEntity<LeagueMatchEntity> {
+  constructor(
+    public assists: number,
+    public championId: number,
+    public crowdControlScore: number,
+    public damageDealtToBuildings: number,
+    public deaths: number,
+    public doubleKills: number,
+    public firstBlood: boolean,
+    public firstTowerKill: boolean,
+    public gameDuration: number,
+    public gameMode: string,
+    public gameStartTimestamp: Date,
+    public gameType: string,
+    public goldEarned: number,
+    public kills: number,
+    public magicalDamage: number,
+    public magicalDamageTaken: number,
+    public matchId: string,
+    public pentaKills: number,
+    public physicalDamage: number,
+    public physicalDamageTaken: number,
+    public puuid: string,
+    public quadraKills: number,
+    public tripleKills: number,
+    public trueDamage: number,
+    public trueDamageTaken: number,
+    public win: boolean,
+  ) {}
+  toEntity() {
+    return new LeagueMatchEntity(
+      this.assists,
+      this.championId,
+      this.crowdControlScore,
+      this.damageDealtToBuildings,
+      this.deaths,
+      this.doubleKills,
+      this.firstBlood,
+      this.firstTowerKill,
+      this.gameDuration,
+      this.gameMode,
+      this.gameStartTimestamp,
+      this.gameType,
+      this.goldEarned,
+      this.kills,
+      this.magicalDamage,
+      this.magicalDamageTaken,
+      this.matchId,
+      this.pentaKills,
+      this.physicalDamage,
+      this.physicalDamageTaken,
+      this.puuid,
+      this.quadraKills,
+      this.tripleKills,
+      this.trueDamage,
+      this.trueDamageTaken,
+      this.win,
+    );
+  }
+}

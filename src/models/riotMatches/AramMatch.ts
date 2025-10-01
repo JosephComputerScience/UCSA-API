@@ -1,3 +1,3 @@
-import type { LeagueMatch } from "./LeagueMatch";
+import { LeagueMatch } from "./LeagueMatch";
 
-export type AramMatch = {} & LeagueMatch;
+export class AramMatch extends LeagueMatch {}

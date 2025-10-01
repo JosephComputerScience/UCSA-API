@@ -38,10 +38,12 @@ export const RIOT_QUEUES: RiotQueue = {
 } as const;
 
 /** Riot queue ids */
-export const RIOT_QUEUE_IDS = {
+export const RIOT_QUEUE_TYPES = {
   ARAM: "ARAM",
   NORMAL_BLIND: "NORMAL_BLIND",
   NORMAL_DRAFT: "NORMAL_DRAFT",
   RANKED_FLEX: "RANKED_FLEX",
   RANKED_SOLO: "RANKED_SOLO",
 } as const;
+
+export type RIOT_QUEUE_KEYS = keyof typeof RIOT_QUEUE_TYPES;

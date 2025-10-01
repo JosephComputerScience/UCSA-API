@@ -12,8 +12,10 @@ export type InfoDTO = {
   gameDuration: number; // game duration in ms
   gameId: number;
   gameMode: string;
+  gameStartTimestamp: number;
+  gameType: string;
   mapId: number;
-  participants: ParticipantDTO;
+  participants: ParticipantDTO[];
   queueId: number;
   teams: TeamDTO[];
   tournamentCode: string;
@@ -22,7 +24,6 @@ export type InfoDTO = {
 export type ParticipantDTO = {
   assists: number;
   baronKills: number;
-  bountyLevel: number;
   championId: number;
   championTransformed: number;
   consumablesPurchased: number;
@@ -49,6 +50,7 @@ export type ParticipantDTO = {
   pentaKills: number;
   physicalDamageDealtToChampions: number;
   physicalDamageTaken: number;
+  puuid: string;
   quadraKills: number;
   role: string;
   timeCCingOthers: number;
@@ -56,11 +58,13 @@ export type ParticipantDTO = {
   totalHealsOnTeammates: number;
   totalTimeSpentDead: number;
   tripleKills: number;
+  trueDamageDealtToChampions: number;
   trueDamageTaken: number;
   turretKills: number;
   visionScore: number;
   wardsKilled: number;
   wardsPlaced: number;
+  win: boolean;
 };
 
 export type TeamDTO = {

@@ -1,8 +1,16 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse, HttpStatusCode } from "axios";
 import { is2xxStatus } from "./is2xxStatus";
+import { sleep } from "./sleep";
 
-const RETRY_TIMER = 1000; // 1000ms is 1s
+const RETRY_TIMER = 3_000;
 const DEFAULT_RETRY = 3;
+
+export type RetryConfig = {
+  retries: number;
+  retryTimer: number;
+};
+
+const defaultRetryConfig = { retries: DEFAULT_RETRY, retryTimer: RETRY_TIMER };
 
 /** Available HTTP methods on the Request, Axios wrapper */
 enum REQUEST_METHODS {
@@ -24,19 +32,22 @@ enum REQUEST_METHODS {
  * @param retry - Number of retries, default is 3
  * @returns - Axios response
  */
-const requestWithRetry = async <T>(config: AxiosRequestConfig, retry: number): Promise<AxiosResponse<T>> => {
+const requestWithRetry = async <T>(config: AxiosRequestConfig, retryConfig: RetryConfig): Promise<AxiosResponse<T>> => {
+  const cleanRetryConfig = { ...defaultRetryConfig, ...retryConfig };
+  const { retries, retryTimer } = cleanRetryConfig;
   let retryCount = 0;
+
   do {
-    const overriddenConfig = overrideConfigForRetries(config, retryCount < retry);
+    const overriddenConfig = overrideConfigForRetries(config, retryCount < retries);
     const resp = await axios.request<T>(overriddenConfig);
     if (is2xxStatus(resp.status) || resp.status === HttpStatusCode.Unauthorized) {
       return resp;
     }
     // wait 1 second before retry
-    setTimeout(() => {}, RETRY_TIMER);
+    await sleep(retryTimer);
     retryCount++;
-  } while (retryCount <= retry);
-  throw Error(`Maximum retries hit ${JSON.stringify(config)}`);
+  } while (retryCount <= retries);
+  throw Error(`Maximum retries hit url${config.url}, method: ${config.method}`);
 };
 
 /**
@@ -56,21 +67,21 @@ const overrideConfigForRetries = (config: AxiosRequestConfig, overrideValidateSt
  * Axios wrapper with retries with predefined HTTP verb for ease of use.
  */
 export const request = {
-  request: <T>(config: AxiosRequestConfig, retries: number = DEFAULT_RETRY) => requestWithRetry<T>(config, retries),
-  get: <T>(url: string, config?: AxiosRequestConfig, retries: number = DEFAULT_RETRY) =>
-    requestWithRetry<T>({ ...config, url, method: REQUEST_METHODS.GET }, retries),
-  delete: <T>(url: string, config?: AxiosRequestConfig, retries: number = DEFAULT_RETRY) =>
-    requestWithRetry<T>({ ...config, url, method: REQUEST_METHODS.DELETE }, retries),
-  head: <T>(url: string, config?: AxiosRequestConfig, retries: number = DEFAULT_RETRY) =>
-    requestWithRetry<T>({ ...config, url, method: REQUEST_METHODS.HEAD }, retries),
-  options: <T>(url: string, config?: AxiosRequestConfig, retries: number = DEFAULT_RETRY) =>
-    requestWithRetry<T>({ ...config, url, method: REQUEST_METHODS.OPTIONS }, retries),
-  post: <T>(url: string, data?: T, config?: AxiosRequestConfig, retries: number = DEFAULT_RETRY) =>
-    requestWithRetry<T>({ ...config, url, data, method: REQUEST_METHODS.POST }, retries),
-  put: <T>(url: string, data?: T, config?: AxiosRequestConfig, retries: number = DEFAULT_RETRY) =>
-    requestWithRetry<T>({ ...config, url, data, method: REQUEST_METHODS.PUT }, retries),
-  patch: <T>(url: string, data?: T, config?: AxiosRequestConfig, retries: number = DEFAULT_RETRY) =>
-    requestWithRetry<T>({ ...config, url, data, method: REQUEST_METHODS.PATCH }, retries),
+  request: <T>(config: AxiosRequestConfig, retryConfig: RetryConfig = defaultRetryConfig) => requestWithRetry<T>(config, retryConfig),
+  get: <T>(url: string, config?: AxiosRequestConfig, retryConfig: RetryConfig = defaultRetryConfig) =>
+    requestWithRetry<T>({ ...config, url, method: REQUEST_METHODS.GET }, retryConfig),
+  delete: <T>(url: string, config?: AxiosRequestConfig, retryConfig: RetryConfig = defaultRetryConfig) =>
+    requestWithRetry<T>({ ...config, url, method: REQUEST_METHODS.DELETE }, retryConfig),
+  head: <T>(url: string, config?: AxiosRequestConfig, retryConfig: RetryConfig = defaultRetryConfig) =>
+    requestWithRetry<T>({ ...config, url, method: REQUEST_METHODS.HEAD }, retryConfig),
+  options: <T>(url: string, config?: AxiosRequestConfig, retryConfig: RetryConfig = defaultRetryConfig) =>
+    requestWithRetry<T>({ ...config, url, method: REQUEST_METHODS.OPTIONS }, retryConfig),
+  post: <T>(url: string, data?: T, config?: AxiosRequestConfig, retryConfig: RetryConfig = defaultRetryConfig) =>
+    requestWithRetry<T>({ ...config, url, data, method: REQUEST_METHODS.POST }, retryConfig),
+  put: <T>(url: string, data?: T, config?: AxiosRequestConfig, retryConfig: RetryConfig = defaultRetryConfig) =>
+    requestWithRetry<T>({ ...config, url, data, method: REQUEST_METHODS.PUT }, retryConfig),
+  patch: <T>(url: string, data?: T, config?: AxiosRequestConfig, retryConfig: RetryConfig = defaultRetryConfig) =>
+    requestWithRetry<T>({ ...config, url, data, method: REQUEST_METHODS.PATCH }, retryConfig),
   // postForm: <T=any> (url: string, data?: any, config?: AxiosRequestConfig) => {}, // support this HTTP method
   // putForm: <T=any> (url: string, data?: any, config?: AxiosRequestConfig) => {}, // support this HTTP method
   // patchForm: <T=any> (url: string, data?: any, config?: AxiosRequestConfig) => {}, // support this HTTP method

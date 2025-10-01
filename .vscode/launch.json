@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "UCSA API debug",
       "program": "${workspaceFolder}/src/index.ts",
-      "runtimeArgs": ["--env-file=.env", "-r", "ts-node/register"]
+      "runtimeArgs": ["--env-file=.env", "-r", "ts-node/register", "-r", "tsconfig-paths/register"]
     }
   ]
 }
