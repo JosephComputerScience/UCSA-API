@@ -4,20 +4,16 @@ import type { RiotMatchDTO } from "@/dto/RiotMatchDTO";
 import type { RiotSummonerDTO } from "@/dto/RiotSummonerDTO";
 import type { RiotAccount } from "@/models/RiotAccount";
 import { RiotSummoner } from "@/models/RiotSummoner";
-import { request } from "@/utils/request";
-import { getRiotHeaders } from "@/utils/riot/getRiotHeaders";
 import type { AxiosResponse } from "axios";
 import type { IRiotRepository } from "./interfaces/IRiotRepository";
+import { riotClient } from "./riotClient";
 
 export class RiotRepository implements IRiotRepository {
-  private _riotHeaders = getRiotHeaders();
-
   getAccountByPuuid = async (puuid: string): Promise<RiotAccount> => {
     try {
       const url = `${RIOT_REGIONAL_HOST_URL}/riot/account/v1/accounts/by-puuid/${puuid}`;
-      const resp: AxiosResponse<RiotAccountDTO> = await request.get(url, {
-        headers: this._riotHeaders,
-      });
+      const resp: AxiosResponse<RiotAccountDTO> = await riotClient({ url, method: "GET" });
+
       const { gameName: summonerName, tagLine } = resp.data;
       return { summonerName, puuid, tagLine };
     } catch {
@@ -28,9 +24,7 @@ export class RiotRepository implements IRiotRepository {
   getAccountBySummonerNameTagLine = async (summonerName: string, tagLine: string): Promise<RiotAccount> => {
     try {
       const url = `${RIOT_REGIONAL_HOST_URL}/riot/account/v1/accounts/by-riot-id/${summonerName}/${tagLine}`;
-      const resp: AxiosResponse<RiotAccountDTO> = await request.get(url, {
-        headers: this._riotHeaders,
-      });
+      const resp: AxiosResponse<RiotAccountDTO> = await riotClient({ url, method: "GET" });
       const { puuid } = resp.data;
       return { summonerName, puuid, tagLine };
     } catch {
@@ -40,19 +34,14 @@ export class RiotRepository implements IRiotRepository {
 
   getMatchIdsByPuuid = async (puuid: string, queueId: number, count = 20): Promise<string[]> => {
     const url = `${RIOT_REGIONAL_HOST_URL}/lol/match/v5/matches/by-puuid/${puuid}/ids`;
-    const resp: AxiosResponse<string[]> = await request.get(url, {
-      headers: this._riotHeaders,
-      params: { queue: queueId, count },
-    });
+    const resp: AxiosResponse<string[]> = await riotClient({ url, method: "GET", params: { queue: queueId, count } });
     return resp.data;
   };
 
   getMatchesByMatchIds = async (matchIds: string[]) => {
     const matchPromises = matchIds.map((id) => {
       const url = `${RIOT_REGIONAL_HOST_URL}/lol/match/v5/matches/${id}`;
-      return request.get<RiotMatchDTO>(url, {
-        headers: this._riotHeaders,
-      });
+      return riotClient<RiotMatchDTO>({ url, method: "GET" });
     });
     const responses = await Promise.allSettled(matchPromises);
     const matches: RiotMatchDTO[] = [];
@@ -64,19 +53,16 @@ export class RiotRepository implements IRiotRepository {
         errors.push(resp.reason);
       }
     });
-    console.log("RIOT_SERVICE", `getMatchesByIds errors: ${JSON.stringify(errors)}`);
     return matches;
   };
 
   getSummonerByPuuid = async (puuid: string): Promise<RiotSummoner> => {
     try {
       const url = `${RIOT_PLATFORM_HOST_URL}/lol/summoner/v4/summoners/by-puuid/${encodeURIComponent(puuid)}`;
-      const resp: AxiosResponse<RiotSummonerDTO> = await request.get(url, {
-        headers: this._riotHeaders,
-      });
-      const { accountId, profileIconId, revisionDate, id, summonerLevel } = resp.data;
+      const resp: AxiosResponse<RiotSummonerDTO> = await riotClient({ url, method: "GET" });
+      const { profileIconId, revisionDate, summonerLevel } = resp.data;
 
-      return new RiotSummoner(accountId, profileIconId, new Date(revisionDate), id, puuid, summonerLevel);
+      return new RiotSummoner(profileIconId, new Date(revisionDate), puuid, summonerLevel);
     } catch {
       throw new Error(`Could not find Riot summoner by puuid: ${puuid}`);
     }

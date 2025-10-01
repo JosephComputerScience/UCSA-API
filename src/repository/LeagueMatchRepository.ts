@@ -19,4 +19,13 @@ export class LeagueMatchRepository implements ILeagueMatchRepository {
     console.log("records", records);
     return [];
   }
+
+  async updateUserMatchesByPuuid(puuid: string, matches: LeagueMatch[]) {
+    const entities = matches.map((match) => {
+      const entity = match.toEntity();
+      entity.updateUpdatedAt();
+      return entity;
+    });
+    await this._leagueMatchDAO.updateUserMatchesByPuuid(puuid, entities);
+  }
 }

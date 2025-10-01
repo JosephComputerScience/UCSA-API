@@ -40,14 +40,12 @@ export class SummonerDAO implements ISummonerDAO {
 
   upsert = async (summoner: Summoner) => {
     try {
-      const { puuid, summonerName, tagLine, accountId, summonerId, summonerLevel, profileIconId, revisionDate } = summoner;
+      const { puuid, summonerName, tagLine, summonerLevel, profileIconId, revisionDate } = summoner;
       const updatedAt = new Date();
       const entity: SummonerEntity = {
         puuid,
         summonerName,
         tagLine,
-        accountId,
-        summonerId,
         summonerLevel,
         profileIconId,
         revisionDate,

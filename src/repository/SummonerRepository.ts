@@ -13,19 +13,9 @@ export class SummonerRepository implements ISummonerRepository {
     try {
       const entity = await this._summonerDAO.findByNameAndTag(summonerName, tagLine);
       if (!entity) return null;
-      const { accountId, profileIconId, puuid, revisionDate, summonerId, summonerLevel, updatedAt } = entity;
+      const { profileIconId, puuid, revisionDate, summonerLevel, updatedAt } = entity;
 
-      const summoner = new Summoner(
-        puuid,
-        summonerName,
-        tagLine,
-        accountId,
-        summonerId,
-        summonerLevel,
-        profileIconId,
-        revisionDate,
-        updatedAt,
-      );
+      const summoner = new Summoner(puuid, summonerName, tagLine, summonerLevel, profileIconId, revisionDate, updatedAt);
 
       return summoner;
     } catch (e) {
@@ -37,19 +27,9 @@ export class SummonerRepository implements ISummonerRepository {
     try {
       const entity = await this._summonerDAO.findByPuuid(puuid);
       if (!entity) return null;
-      const { accountId, profileIconId, revisionDate, summonerId, summonerLevel, summonerName, tagLine, updatedAt } = entity;
+      const { profileIconId, revisionDate, summonerLevel, summonerName, tagLine, updatedAt } = entity;
 
-      const summoner = new Summoner(
-        puuid,
-        summonerName,
-        tagLine,
-        accountId,
-        summonerId,
-        summonerLevel,
-        profileIconId,
-        revisionDate,
-        updatedAt,
-      );
+      const summoner = new Summoner(puuid, summonerName, tagLine, summonerLevel, profileIconId, revisionDate, updatedAt);
 
       return summoner;
     } catch (e) {

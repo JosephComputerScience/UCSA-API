@@ -20,4 +20,11 @@ export class LeagueMatchDAO implements ILeagueMatchDAO {
   async batchDeleteByPuuid(puuid: string) {
     await this.knex("league_match").where({ puuid }).del();
   }
+
+  async updateUserMatchesByPuuid(puuid: string, matchEntities: LeagueMatchEntity[]): Promise<void> {
+    await this.knex.transaction(async (trx) => {
+      await trx("league_match").where({ puuid }).del();
+      await trx("league_match").insert(matchEntities);
+    });
+  }
 }
