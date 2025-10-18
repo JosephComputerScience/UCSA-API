@@ -1,3 +1,5 @@
+import type { RIOT_QUEUE_KEYS } from "@/types";
+
 /**
  * The full schema for all RiotMatch DTOs can be found at
  * https://developer.riotgames.com/apis#match-v5/GET_getMatch

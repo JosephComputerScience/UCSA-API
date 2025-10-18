@@ -7,9 +7,18 @@ export type GetSummonerParams = {
   puuid: string;
 };
 
+export type GetMatchesParams = {
+  puuid: string;
+};
+
 export interface GetSummonerType extends RouteGenericInterface {
   Querystring: GetSummonerParams;
 }
+
+export interface GetMatchType extends RouteGenericInterface {
+  Querystring: GetMatchesParams;
+}
+
 
 export type ReplySummoner = {
   summoner: SummonerDTO;

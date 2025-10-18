@@ -21,6 +21,7 @@ export class LeagueMatchEntity {
     public physicalDamage: number,
     public physicalDamageTaken: number,
     public puuid: string,
+    public queueId: number,
     public quadraKills: number,
     public tripleKills: number,
     public trueDamage: number,

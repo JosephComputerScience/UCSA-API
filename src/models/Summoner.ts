@@ -6,7 +6,6 @@ export class Summoner {
   tagLine: string;
   summonerLevel: number;
   profileIconId: number;
-  matches = [];
   revisionDate: Date;
   updatedAt: Date;
 
@@ -29,7 +28,7 @@ export class Summoner {
   }
 
   isStale(): boolean {
-    const threeMins = 180000; // 3 mins in ms
-    return hasTimeElapsed(this.updatedAt.valueOf(), threeMins);
+    const thirtyMins = 1800000; // 30 mins in ms
+    return hasTimeElapsed(this.updatedAt.valueOf(), thirtyMins);
   }
 }
