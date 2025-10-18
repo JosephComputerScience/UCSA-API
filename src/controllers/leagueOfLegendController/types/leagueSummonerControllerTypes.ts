@@ -19,7 +19,6 @@ export interface GetMatchType extends RouteGenericInterface {
   Querystring: GetMatchesParams;
 }
 
-
 export type ReplySummoner = {
   summoner: SummonerDTO;
 };
