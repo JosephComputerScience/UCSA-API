@@ -1,5 +1,6 @@
 import type { ILeagueMatchDAO } from "@/dao/interfaces/ILeagueMatchDAO";
-import type { LeagueMatch } from "@/models/riotMatches/LeagueMatch";
+import type { LeagueMatchEntity } from "@/models/entity/LeagueMatchEntity";
+import { LeagueMatch } from "@/models/riotMatches/LeagueMatch";
 import type { ILeagueMatchRepository } from "./interfaces/ILeagueMatchRepository";
 
 export class LeagueMatchRepository implements ILeagueMatchRepository {
@@ -15,9 +16,8 @@ export class LeagueMatchRepository implements ILeagueMatchRepository {
 
   async getAllMatchesByPuuid(puuid: string): Promise<LeagueMatch[]> {
     const records = await this._leagueMatchDAO.getMatchesByPuuid(puuid);
-    // todo: need to convert the entity to league match model because match stats are a json under match stats
-    console.log("records", records);
-    return [];
+
+    return this.convertEntityToMatches(records);
   }
 
   async updateUserMatchesByPuuid(puuid: string, matches: LeagueMatch[]) {
@@ -26,6 +26,70 @@ export class LeagueMatchRepository implements ILeagueMatchRepository {
       entity.updateUpdatedAt();
       return entity;
     });
+
     await this._leagueMatchDAO.updateUserMatchesByPuuid(puuid, entities);
+  }
+
+  convertEntityToMatches(entities: LeagueMatchEntity[]) {
+    return entities.map((entity) => {
+      const {
+        assists,
+        championId,
+        crowdControlScore,
+        damageDealtToBuildings,
+        deaths,
+        doubleKills,
+        firstBlood,
+        firstTowerKill,
+        gameDuration,
+        gameMode,
+        gameStartTimestamp,
+        gameType,
+        goldEarned,
+        kills,
+        magicalDamage,
+        magicalDamageTaken,
+        matchId,
+        pentaKills,
+        physicalDamage,
+        physicalDamageTaken,
+        puuid,
+        queueId,
+        quadraKills,
+        tripleKills,
+        trueDamage,
+        trueDamageTaken,
+        win,
+      } = entity;
+      return new LeagueMatch(
+        assists,
+        championId,
+        crowdControlScore,
+        damageDealtToBuildings,
+        deaths,
+        doubleKills,
+        firstBlood,
+        firstTowerKill,
+        gameDuration,
+        gameMode,
+        gameStartTimestamp,
+        gameType,
+        goldEarned,
+        kills,
+        magicalDamage,
+        magicalDamageTaken,
+        matchId,
+        pentaKills,
+        physicalDamage,
+        physicalDamageTaken,
+        puuid,
+        queueId,
+        quadraKills,
+        tripleKills,
+        trueDamage,
+        trueDamageTaken,
+        win,
+      );
+    });
   }
 }

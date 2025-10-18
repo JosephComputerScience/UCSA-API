@@ -1,5 +1,5 @@
 import { RIOT_QUEUES, RIOT_QUEUE_TYPES } from "@/constants";
-import type { ParticipantDTO, RiotMatchDTO } from "@/dto/RiotMatchDTO";
+import type { RiotMatchDTO } from "@/dto/RiotMatchDTO";
 import { LeagueMatch } from "@/models/riotMatches/LeagueMatch";
 import type { ILeagueMatchRepository } from "@/repository/interfaces/ILeagueMatchRepository";
 import type { IRiotRepository } from "@/repository/riot/interfaces/IRiotRepository";
@@ -22,7 +22,7 @@ export class LeagueOfLegendMatchService implements ILeagueOfLegendMatchService {
   }
 
   async updateMatchesByPuuid(puuid: string): Promise<void> {
-    const riotMatchIdPromises = Object.keys(RIOT_QUEUE_TYPES).map((queueType) =>
+    const riotMatchIdPromises = Object.values(RIOT_QUEUE_TYPES).map((queueType) =>
       this._riotRepository.getMatchIdsByPuuid(puuid, RIOT_QUEUES[queueType].queueId, 100),
     );
 
@@ -40,7 +40,12 @@ export class LeagueOfLegendMatchService implements ILeagueOfLegendMatchService {
   riotMatchDtoToLeagueMatch(riotMatchDtos: RiotMatchDTO[], puuid: string): LeagueMatch[] {
     const riotMatches = riotMatchDtos.map((riotMatchDto) => {
       const { info, metadata } = riotMatchDto;
+      const { queueId } = info;
       const participant = info.participants.find((p) => p.puuid === puuid);
+
+      if (!participant) {
+        throw new Error("No participant found");
+      }
       const {
         assists,
         championId,
@@ -62,7 +67,7 @@ export class LeagueOfLegendMatchService implements ILeagueOfLegendMatchService {
         trueDamageDealtToChampions,
         trueDamageTaken,
         win,
-      } = participant as ParticipantDTO;
+      } = participant;
 
       const { gameDuration, gameMode, gameStartTimestamp, gameType } = info;
 
@@ -89,6 +94,7 @@ export class LeagueOfLegendMatchService implements ILeagueOfLegendMatchService {
         physicalDamageDealtToChampions,
         physicalDamageTaken,
         puuid,
+        queueId,
         quadraKills,
         tripleKills,
         trueDamageDealtToChampions,

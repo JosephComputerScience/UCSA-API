@@ -1,8 +1,9 @@
+import matchRouter from "@/routes/leagueOfLegends/matchRouter";
+import summonerRouter from "@/routes/leagueOfLegends/summonerRouter";
 import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { type FastifyListenOptions, type HookHandlerDoneFunction, type RequestGenericInterface, fastify } from "fastify";
 import type { ReplyGenericInterface } from "fastify/types/reply";
 import { UserController } from "./controllers/userController";
-import summonerRouter from "./routes/leagueOfLegends/summonerRoute";
 import userRouter from "./routes/userRoute";
 import { User } from "./schemas/userSchema";
 import type { UCSAReply, UCSARequest, UCSARoute } from "./types";
@@ -95,6 +96,7 @@ interface FastifyDemoReply extends ReplyGenericInterface {
 
 // updated example start
 server.register(summonerRouter);
+server.register(matchRouter);
 // updated example end
 /** DI EXAMPLE END */
 

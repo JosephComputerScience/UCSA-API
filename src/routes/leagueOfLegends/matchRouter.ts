@@ -1,15 +1,5 @@
 import { leagueSummonerController } from "@/config/container";
-// import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import type { FastifyInstance, FastifyPluginOptions, HookHandlerDoneFunction } from "fastify";
-
-// const userRoutes = (
-//   fastify: FastifyInstance,
-//   _: FastifyPluginOptions,
-//   done: HookHandlerDoneFunction
-// ) => {
-//   fastify.get('/', getIndex);
-//   done();
-// };
 
 /**
  * The router is actually just a Fastify plugin in which we use the instance passed
@@ -18,8 +8,9 @@ import type { FastifyInstance, FastifyPluginOptions, HookHandlerDoneFunction } f
  * @param {FastifyPluginOptions} _
  * @param {HookHandlerDoneFunction} done fastify handler to signal that this is the end of the plugin
  */
-const summonerRouter = async (instance: FastifyInstance, _: FastifyPluginOptions, done: HookHandlerDoneFunction) => {
-  instance.get("/summoner", leagueSummonerController.getSummoner);
+const matchRouter = async (instance: FastifyInstance, _: FastifyPluginOptions, done: HookHandlerDoneFunction) => {
+  instance.get("/lol/match", leagueSummonerController.getMatches);
+  instance.get("/lol/aggregate", leagueSummonerController.getAggregateMatches);
 };
 
-export default summonerRouter;
+export default matchRouter;

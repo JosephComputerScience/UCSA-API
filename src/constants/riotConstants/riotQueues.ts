@@ -1,4 +1,4 @@
-import type { RiotQueue } from "../../types/riot";
+import type { RIOT_QUEUE_KEYS, RiotQueue } from "@/types/riot";
 /**
  * Riot queues are used to filter out matches from the Riot API.
  *
@@ -46,4 +46,11 @@ export const RIOT_QUEUE_TYPES = {
   RANKED_SOLO: "RANKED_SOLO",
 } as const;
 
-export type RIOT_QUEUE_KEYS = keyof typeof RIOT_QUEUE_TYPES;
+/** Riot queue ids */
+export const RIOT_QUEUE_ID_TYPES: Record<number, RIOT_QUEUE_KEYS> = {
+  450: "ARAM",
+  430: "NORMAL_BLIND",
+  400: "NORMAL_DRAFT",
+  440: "RANKED_FLEX",
+  420: "RANKED_SOLO",
+} as const;

@@ -1,6 +1,6 @@
-import type { ILeagueOfLegendMatchService } from "@/services/interfaces/ILeagueOfLegendMatchService";
-import type { ILeagueOfLegendUserService } from "@/services/interfaces/ILeagueOfLegendUserService";
-import type { ILolUserMatch } from "../interfaces/ILolUserMatch";
+import type { ILeagueOfLegendMatchService } from "@/services/leagueOfLegendMatch/interfaces/ILeagueOfLegendMatchService";
+import type { ILeagueOfLegendUserService } from "@/services/leagueOfLegendUser/interfaces/ILeagueOfLegendUserService";
+import type { ILolUserMatch } from "./interfaces/ILolUserMatch";
 
 export class LolUserMatch implements ILolUserMatch {
   private _leagueOfLegendMatchService: ILeagueOfLegendMatchService;

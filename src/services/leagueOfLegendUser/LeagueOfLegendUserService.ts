@@ -1,9 +1,7 @@
-import type { RIOT_QUEUE_KEYS } from "@/constants";
-import { RIOT_QUEUES } from "@/constants/riotConstants/riotQueues";
-import type { RiotAccount } from "@/models/RiotAccount";
 import { Summoner } from "@/models/Summoner";
 import type { ISummonerRepository } from "@/repository/interfaces/ISummonerRepository";
 import type { IRiotRepository } from "@/repository/riot/interfaces/IRiotRepository";
+import type { RIOT_QUEUE_KEYS } from "@/types";
 import type { ILeagueOfLegendUserService } from "./interfaces/ILeagueOfLegendUserService";
 
 /**
@@ -67,29 +65,6 @@ export class LeagueOfLegendUserService implements ILeagueOfLegendUserService {
     // }
 
     return summoner;
-  }
-
-  /**
-   * Deletes the summoners matches in the database and updates the summoners latest matches.
-   * This keeps the api simple for now so that we don't need to worry about match overlaps
-   * or catching up to the last update.
-   *
-   * @param summonerName - User in game name
-   * @param tagLine - Additional account identifier, after the summoner name ususally starts with #
-   * @param queueId - Determines the game match type
-   * @param count - Dumber of matches to update, default is 20
-   * @returns
-   */
-  async updateMatchesBySummonerNameAndTagAndQueueId(summonerName: string, tagLine: string, queueId: RIOT_QUEUE_KEYS, count = 20) {
-    const riotAccount: RiotAccount = await this._riotRepository.getAccountBySummonerNameTagLine(summonerName, tagLine);
-
-    const { queueId: matchType } = RIOT_QUEUES[queueId];
-    const matchIds = await this._riotRepository.getMatchIdsByPuuid(riotAccount.puuid, matchType, count);
-    // todo:
-    // 1. delete all matches with match service
-    // 2. updates matches with this._riotRepository.getMatchesByMatchIds(matchIds);
-    // 3. re aggregate that data.
-    return this._riotRepository.getMatchesByMatchIds(matchIds);
   }
 
   /**
