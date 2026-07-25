@@ -1,5 +1,6 @@
 import matchRouter from "@/routes/leagueOfLegends/matchRouter";
 import summonerRouter from "@/routes/leagueOfLegends/summonerRouter";
+import cors from "@fastify/cors";
 import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { type FastifyListenOptions, type HookHandlerDoneFunction, type RequestGenericInterface, fastify } from "fastify";
 import type { ReplyGenericInterface } from "fastify/types/reply";
@@ -24,6 +25,9 @@ interface IReply {
 }
 
 const server = fastify().withTypeProvider<TypeBoxTypeProvider>();
+server.register(cors, {
+  origin: "*",
+});
 
 /**
  * example request

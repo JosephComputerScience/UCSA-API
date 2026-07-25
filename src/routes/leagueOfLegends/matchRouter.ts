@@ -10,7 +10,7 @@ import type { FastifyInstance, FastifyPluginOptions, HookHandlerDoneFunction } f
  */
 const matchRouter = async (instance: FastifyInstance, _: FastifyPluginOptions, done: HookHandlerDoneFunction) => {
   instance.get("/lol/match", leagueSummonerController.getMatches);
-  instance.get("/lol/aggregate", leagueSummonerController.getAggregateMatches);
+  instance.get("/lol/match/aggregate", leagueSummonerController.getAggregateMatches);
 };
 
 export default matchRouter;

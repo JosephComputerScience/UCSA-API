@@ -31,8 +31,8 @@ export class LeagueOfLegendController implements ILeagueOfLegendController {
 
   async getMatches(req: FastifyRequest<GetMatchType>, reply: FastifyReply) {
     const { puuid } = req.query;
-
     const matches = await this._lolMatchService.getMatchesByPuuid(puuid);
+
     return reply.send({ matches });
   }
 
@@ -40,6 +40,7 @@ export class LeagueOfLegendController implements ILeagueOfLegendController {
     const { puuid } = req.query;
     const matches = await this._lolMatchService.getMatchesByPuuid(puuid);
     const aggregateMatches = this._matchAggregateService.aggregateMatches(matches);
-    return reply.send({ ...aggregateMatches });
+
+    return reply.send({ aggregateMatches });
   }
 }

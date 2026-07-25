@@ -36,12 +36,6 @@ export class LeagueOfLegendUserService implements ILeagueOfLegendUserService {
       return null;
     }
 
-    // const threeMins = 180000; // 3 mins in ms
-    // // Return summoner if found and data is not outdated by 3 mins
-    // if (dbSummoner && !hasTimeElapsed(dbSummoner.updatedAt.valueOf(), threeMins)) {
-    //   return dbSummoner;
-    // }
-
     return summoner;
   }
 
@@ -52,17 +46,10 @@ export class LeagueOfLegendUserService implements ILeagueOfLegendUserService {
    * @returns {Summoner}
    */
   async getSummonerByPuuid(puuid: string): Promise<Summoner | null> {
-    // TODO: retrieve the latest user aggregate numbers.
     const summoner = await this._summonerRepository.findByPuuid(puuid);
     if (!summoner) {
       null;
     }
-
-    // const threeMins = 180000; // 3 mins in ms
-    // Return summoner if found and data is not outdated by 3 mins
-    // if (dbSummoner && !hasTimeElapsed(dbSummoner.updatedAt.valueOf(), threeMins)) {
-    //   return dbSummoner;
-    // }
 
     return summoner;
   }
