@@ -31,37 +31,39 @@ export class MatchAggregateService implements IMatchAggreGateService {
       aggregateGameMode.totalMatches = aggregateGameMode.totalMatches ? aggregateGameMode.totalMatches + 1 : 1;
       aggregateGameMode[match.championId] = aggregateChampionStats;
     }
-    // const averages: AggregateLeagueMatches = {};
+    
     for (const queueId in aggregatedMatchesByQueueId) {
       const aggregateGameMode = aggregatedMatchesByQueueId[queueId as RIOT_QUEUE_KEYS];
+      // key if not totalMatches is championId
       for (const key in aggregateGameMode) {
         if (key !== "totalMatches") {
           const totalMatches = aggregateGameMode[key].totalMatches;
           const championStats = aggregateGameMode[key];
           championStats.assists = Math.floor(championStats.assists / totalMatches);
-          championStats.championId = Math.floor(championStats.championId / totalMatches);
-          championStats.crowdControlScore = Math.floor(championStats.crowdControlScore / totalMatches);
+          championStats.championId = championStats.championId;
+          championStats.crowdControlScore = championStats.crowdControlScore / totalMatches;
           championStats.damageDealtToBuildings = Math.floor(championStats.damageDealtToBuildings / totalMatches);
           championStats.deaths = Math.floor(championStats.deaths / totalMatches);
-          championStats.doubleKills = Math.floor(championStats.doubleKills / totalMatches);
-          championStats.firstBlood = Math.floor(championStats.firstBlood / totalMatches);
+          championStats.doubleKills = Number((championStats.doubleKills * 100 / totalMatches).toFixed(2));
+          championStats.firstBlood = Number((championStats.firstBlood * 100 / totalMatches).toFixed(2));
           championStats.firstTowerKill = Math.floor(championStats.firstTowerKill / totalMatches);
           championStats.goldEarned = Math.floor(championStats.goldEarned / totalMatches);
           championStats.kills = Math.floor(championStats.kills / totalMatches);
           championStats.magicalDamage = Math.floor(championStats.magicalDamage / totalMatches);
           championStats.magicalDamageTaken = Math.floor(championStats.magicalDamageTaken / totalMatches);
-          championStats.pentaKills = Math.floor(championStats.pentaKills / totalMatches);
+          championStats.pentaKills = Number((championStats.pentaKills * 100 / totalMatches).toFixed(2));
           championStats.physicalDamage = Math.floor(championStats.physicalDamage / totalMatches);
           championStats.physicalDamageTaken = Math.floor(championStats.physicalDamageTaken / totalMatches);
-          championStats.quadraKills = Math.floor(championStats.quadraKills / totalMatches);
-          championStats.totalMatches = Math.floor(championStats.totalMatches / totalMatches);
-          championStats.tripleKills = Math.floor(championStats.tripleKills / totalMatches);
+          championStats.quadraKills = Number((championStats.quadraKills * 100 / totalMatches).toFixed(2));
+          championStats.totalMatches = championStats.totalMatches;
+          championStats.tripleKills = Number((championStats.tripleKills * 100 / totalMatches).toFixed(2));
           championStats.trueDamage = Math.floor(championStats.trueDamage / totalMatches);
           championStats.trueDamageTaken = Math.floor(championStats.trueDamageTaken / totalMatches);
-          championStats.win = Math.floor(championStats.win / totalMatches);
+          championStats.win = Number((championStats.win * 100/ totalMatches).toFixed(2));
         }
       }
     }
+
     return aggregatedMatchesByQueueId;
   }
 
